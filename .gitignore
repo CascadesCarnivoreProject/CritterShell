@@ -1,33 +1,15 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# User-specific files 
+*.suo
+*.user
 
-# Precompiled Headers
-*.gch
-*.pch
+# Build results 
+bin/
+packages/
+obj/
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# Profiling results
+*.vsp
+*.vspx
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
+# Visual Studio 2015 cache/options directory 
+.vs/ 
