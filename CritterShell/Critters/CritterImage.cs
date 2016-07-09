@@ -33,7 +33,7 @@ namespace CritterShell.Critters
 
         public void SetTime(string date, string time)
         {
-            this.Time = DateTime.ParseExact(date + " " + time, "dd-MMM-yy H:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+            this.Time = DateTime.ParseExact(date + " " + time, Constant.Time.LocalTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
         }
     }
 }

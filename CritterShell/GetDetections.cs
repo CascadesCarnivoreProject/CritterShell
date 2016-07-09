@@ -15,6 +15,9 @@ namespace CritterShell
         public string ImageFile { get; set; }
 
         [Parameter]
+        public string OutputFile { get; set; }
+
+        [Parameter]
         public TimeSpan Window { get; set; }
 
         public GetDetections()
@@ -25,6 +28,14 @@ namespace CritterShell
         protected override void ProcessRecord()
         {
             this.ImageFile = this.CanonicalizePath(this.ImageFile);
+            if (String.IsNullOrEmpty(this.OutputFile))
+            {
+                this.OutputFile = Path.Combine(Path.GetDirectoryName(this.ImageFile), Path.GetFileNameWithoutExtension(this.ImageFile) + "-detections" + Path.GetExtension(this.ImageFile));
+            }
+            else
+            {
+                this.OutputFile = this.CanonicalizePath(this.OutputFile);
+            }
 
             CritterImages critterImages = new CritterImages();
             List<string> importErrors;
@@ -40,8 +51,7 @@ namespace CritterShell
             }
 
             CritterDetections critterDetections = new CritterDetections(critterImages, this.Window, this.BySite);
-            string detectionFilePath = Path.Combine(Path.GetDirectoryName(this.ImageFile), Path.GetFileNameWithoutExtension(this.ImageFile) + "-detections" + Path.GetExtension(this.ImageFile));
-            critterDetections.WriteCsv(detectionFilePath);
+            critterDetections.WriteCsv(this.OutputFile);
         }
     }
 }

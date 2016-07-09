@@ -123,5 +123,11 @@ namespace CritterShell
             public const char Track = 'T';
             public const char Urine = 'U';
         }
+
+        public static class Time
+        {
+            // time formats                                                    Timelapse               .csv saved by Excel
+            public static readonly string[] LocalTimeFormats = new string[2] { "dd-MMM-yyyy HH:mm:ss", "dd-MMM-yy H:mm:ss" };
+        }
     }
 }
