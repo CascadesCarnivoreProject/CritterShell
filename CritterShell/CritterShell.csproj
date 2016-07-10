@@ -56,6 +56,7 @@
     <Compile Include="CritterSignType.cs" />
     <Compile Include="Critters\ImageQuality.cs" />
     <Compile Include="CsvReaderWriter.cs" />
+    <Compile Include="CopyCameraFiles.cs" />
     <Compile Include="GetDetections.cs" />
     <Compile Include="Gpx\Bounds.cs" />
     <Compile Include="Gpx\Extensions.cs" />

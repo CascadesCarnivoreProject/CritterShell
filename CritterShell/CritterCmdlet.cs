@@ -19,5 +19,10 @@ namespace CritterShell
             }
             return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, path));
         }
+
+        protected void WriteVerbose(string format, params object[] arguments)
+        {
+            base.WriteVerbose(String.Format(format, arguments));
+        }
     }
 }

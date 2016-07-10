@@ -44,6 +44,11 @@ namespace CritterShell
             public const string Survey = "Survey";
         }
 
+        public static class File
+        {
+            public const string JpgExtension = ".jpg";
+        }
+
         public static class GarminExtension
         {
             public const string Category = "Category";
