@@ -44,20 +44,31 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityCmdlet.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CritterCmdlet.cs" />
     <Compile Include="CritterDetections.cs" />
+    <Compile Include="Critters\CritterMonthlyActivity.cs" />
+    <Compile Include="Critters\CritterDielActivity.cs" />
     <Compile Include="Critters\CritterImage.cs" />
     <Compile Include="ConvertGpxToCsv.cs" />
     <Compile Include="Critters\CritterDetection.cs" />
     <Compile Include="CritterImages.cs" />
+    <Compile Include="Critters\CritterObservation.cs" />
     <Compile Include="Critters\CritterSign.cs" />
     <Compile Include="CritterSigns.cs" />
     <Compile Include="CritterSignType.cs" />
+    <Compile Include="Critters\DateTimeExtensions.cs" />
+    <Compile Include="Critters\CritterActivity.cs" />
+    <Compile Include="ActivityObservations.cs" />
     <Compile Include="Critters\ImageQuality.cs" />
+    <Compile Include="Critters\StringExtensions.cs" />
     <Compile Include="CsvReaderWriter.cs" />
     <Compile Include="CopyCameraFiles.cs" />
     <Compile Include="GetDetections.cs" />
+    <Compile Include="GetMonthlyActivity.cs" />
+    <Compile Include="GetDielActivity.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Gpx\Bounds.cs" />
     <Compile Include="Gpx\Extensions.cs" />
     <Compile Include="Gpx\GpxFile.cs" />

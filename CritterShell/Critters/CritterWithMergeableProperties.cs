@@ -2,7 +2,7 @@
 
 namespace CritterShell.Critters
 {
-    internal class CritterWithMergeableProperties
+    public class CritterWithMergeableProperties
     {
         protected Activity MergeActivity(Activity thisActivity, Activity otherActivity)
         {

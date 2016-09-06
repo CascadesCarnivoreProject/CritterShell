@@ -1,6 +1,6 @@
 ﻿namespace CritterShell.Critters
 {
-    internal enum GroupType
+    public enum GroupType
     {
         Unknown,
         Family,

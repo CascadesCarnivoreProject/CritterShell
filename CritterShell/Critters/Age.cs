@@ -1,6 +1,6 @@
 ﻿namespace CritterShell.Critters
 {
-    internal enum Age
+    public enum Age
     {
         Unknown,
         Adult,

@@ -1,6 +1,6 @@
 ﻿namespace CritterShell.Critters
 {
-    internal enum ImageQuality
+    public enum ImageQuality
     {
         Ok,
         Dark,

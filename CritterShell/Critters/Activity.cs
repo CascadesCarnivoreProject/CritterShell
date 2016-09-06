@@ -3,7 +3,7 @@
 namespace CritterShell.Critters
 {
     [Flags]
-    internal enum Activity
+    public enum Activity
     {
         Unknown,
         Begging,

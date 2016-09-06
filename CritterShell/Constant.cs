@@ -4,7 +4,6 @@ namespace CritterShell
 {
     internal static class Constant
     {
-        public const string DateTimeUtcFormat = "yyyy-MM-ddTHH:mm:ssZ";
         public static readonly TimeSpan DefaultDetectionMergeWindow = TimeSpan.FromMinutes(5);
 
         public static class CritterSignColumn
@@ -29,8 +28,9 @@ namespace CritterShell
             public const string Station = "Station";
             public const string File = "File";
             public const string RelativePath = "RelativePath";
-            public const string StartTime = "StartTime";
-            public const string EndTime = "EndTime";
+            public const string StartDateTime = "StartDateTime";
+            public const string EndDateTime = "EndDateTime";
+            public const string UtcOffset = "UtcOffset";
             public const string Duration = "Duration";
             public const string TriggerSource = "TriggerSource";
             public const string Identification = "Identification";
@@ -41,6 +41,13 @@ namespace CritterShell
             public const string Activity = "Activity";
             public const string Comments = "Comments";
             public const string Folder = "Folder";
+            public const string Survey = "Survey";
+        }
+
+        public static class DielColumn
+        {
+            public const string Identification = "Identification";
+            public const string Station = "Station";
             public const string Survey = "Survey";
         }
 
@@ -105,18 +112,20 @@ namespace CritterShell
             public const string Comments = "Comments";
             public const string Confidence = "Confidence";
             public const string Date = "Date";
+            public const string DateTime = "DateTime";
+            public const string DeleteFlag = "DeleteFlag";
             public const string File = "File";
             public const string Folder = "Folder";
             public const string GroupType = "GroupType";
             public const string Identification = "Identification";
             public const string ImageQuality = "ImageQuality";
-            public const string MarkForDeletion = "MarkForDeletion";
             public const string Pelage = "Pelage";
             public const string RelativePath = "RelativePath";
             public const string Station = "Station";
             public const string Survey = "Survey";
             public const string Time = "Time";
             public const string TriggerSource = "TriggerSource";
+            public const string UtcOffset = "UtcOffset";
         }
 
         public static class WaypointSignType
@@ -131,8 +140,12 @@ namespace CritterShell
 
         public static class Time
         {
-            // time formats                                                    Timelapse               .csv saved by Excel
-            public static readonly string[] LocalTimeFormats = new string[2] { "dd-MMM-yyyy HH:mm:ss", "dd-MMM-yy H:mm:ss" };
+            public const string HourOfDayFormatWithoutSign = "hh\\:mm";
+            public const int HoursInDay = 24;
+            public const int MonthsInYear = 12;
+            public const string MonthShortFormat = "MMM";
+            public const string UtcDateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+            public const string UtcOffsetFormat = "0.00";
         }
     }
 }

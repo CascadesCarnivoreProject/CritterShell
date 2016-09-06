@@ -1,6 +1,6 @@
 ﻿namespace CritterShell.Critters
 {
-    internal enum Confidence
+    public enum Confidence
     {
         Low,
         Medium,

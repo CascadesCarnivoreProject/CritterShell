@@ -1,6 +1,6 @@
 ﻿namespace CritterShell.Critters
 {
-    internal enum TriggerSource
+    public enum TriggerSource
     {
         Unknown,
         Critter,

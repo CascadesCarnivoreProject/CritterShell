@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace CritterShell
@@ -11,12 +12,17 @@ namespace CritterShell
     {
         protected string AddColumnValue(DateTime value)
         {
-            return this.AddColumnValue(value.ToString(Constant.DateTimeUtcFormat));
+            return this.AddColumnValue(value.ToString(Constant.Time.UtcDateTimeFormat));
         }
 
         protected string AddColumnValue(double value)
         {
             return this.AddColumnValue(value.ToString());
+        }
+
+        protected string AddColumnValue(TimeSpan utcOffset)
+        {
+            return this.AddColumnValue(utcOffset.TotalHours.ToString(Constant.Time.UtcOffsetFormat));
         }
 
         // Check if there is any Quotation Mark '"', a Comma ',', a Line Feed \x0A,  or Carriage Return \x0D
@@ -121,6 +127,16 @@ namespace CritterShell
             }
 
             return parsedLine;
+        }
+
+        protected DateTime ParseUtcDateTime(string value)
+        {
+            return DateTime.ParseExact(value, Constant.Time.UtcDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+        }
+
+        protected TimeSpan ParseUtcOffset(string value)
+        {
+            return TimeSpan.FromHours(double.Parse(value));
         }
     }
 }

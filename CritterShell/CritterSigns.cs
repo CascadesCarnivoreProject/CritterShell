@@ -9,7 +9,7 @@ namespace CritterShell
 {
     internal class CritterSigns : CsvReaderWriter
     {
-        public static readonly ReadOnlyCollection<string> CsvColumns;
+        private static readonly ReadOnlyCollection<string> CsvColumns;
 
         public List<CritterSign> Signs { get; private set; }
 
@@ -42,9 +42,6 @@ namespace CritterShell
         {
             using (TextWriter fileWriter = new StreamWriter(filePath, false))
             {
-                // Write the header as defined by the data labels in the template file
-                // If the data label is an empty string, we use the label instead.
-                // The append sequence results in a trailing comma which is retained when writing the line.
                 StringBuilder header = new StringBuilder();
                 foreach (string columnName in CritterSigns.CsvColumns)
                 {
@@ -52,8 +49,6 @@ namespace CritterShell
                 }
                 fileWriter.WriteLine(header.ToString());
 
-                // For each row in the data table, write out the columns in the same order as the 
-                // data labels in the template file
                 foreach (CritterSign sign in this.Signs)
                 {
                     StringBuilder row = new StringBuilder();
