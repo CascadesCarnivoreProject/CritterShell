@@ -1,4 +1,5 @@
 ﻿using CritterShell.Critters;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,25 +9,32 @@ using System.Text;
 
 namespace CritterShell
 {
-    internal class ActivityObservations<TActivity> : CsvReaderWriter where TActivity : CritterActivity, new()
+    internal class ActivityObservations<TActivity> : SpreadsheetReaderWriter where TActivity : CritterActivity, new()
     {
-        private static readonly ReadOnlyCollection<string> CsvColumns;
+        private static readonly ReadOnlyCollection<string> Columns;
+
+        private Dictionary<string, List<TActivity>> groupsByStation;
 
         public Dictionary<string, TActivity> ActivityByStation { get; private set; }
+        public Dictionary<string, TActivity> ActivityGroupByName { get; private set; }
+        public TActivity ActivityTotal { get; private set; }
+        public bool WriteProbabilities { get; set; }
+        public bool WriteTotal { get; set; }
 
         static ActivityObservations()
         {
             List<string> columns = new List<string>()
             {
-                Constant.DielColumn.Station,
-                Constant.DielColumn.Identification
+                Constant.ActivityColumn.Station,
+                Constant.ActivityColumn.Identification
             };
 
             if (typeof(TActivity) == typeof(CritterDielActivity))
             {
                 for (int hour = 0; hour < Constant.Time.HoursInDay; ++hour)
                 {
-                    columns.Add(TimeSpan.FromHours(hour).ToString(Constant.Time.HourOfDayFormatWithoutSign));
+                    TimeSpan midpointOfHour = TimeSpan.FromHours(hour) + TimeSpan.FromMinutes(30.0);
+                    columns.Add(midpointOfHour.ToString(Constant.Time.HourOfDayFormatWithoutSign));
                 }
             }
             else if (typeof(TActivity) == typeof(CritterMonthlyActivity))
@@ -42,14 +50,53 @@ namespace CritterShell
                 throw new NotSupportedException(String.Format("Unhandled critter activity type '{0}'.", typeof(TActivity).FullName));
             }
 
-            columns.Add(Constant.DielColumn.Survey);
+            columns.Add(Constant.ActivityColumn.N);
+            columns.Add(Constant.ActivityColumn.Survey);
 
-            ActivityObservations<TActivity>.CsvColumns = columns.AsReadOnly();
+            ActivityObservations<TActivity>.Columns = columns.AsReadOnly();
         }
 
-        public ActivityObservations(CritterDetections critterDetections)
+        public ActivityObservations(CritterDetections critterDetections, Dictionary<string, List<string>> groups)
         {
             this.ActivityByStation = new Dictionary<string, TActivity>();
+            this.ActivityGroupByName = new Dictionary<string, TActivity>();
+            this.ActivityTotal = new TActivity();
+            this.ActivityTotal.Station = "total";
+            this.groupsByStation = new Dictionary<string, List<TActivity>>();
+            this.WriteProbabilities = false;
+            this.WriteTotal = false;
+
+            if (groups != null)
+            {
+                foreach (KeyValuePair<string, List<string>> groupDefinition in groups)
+                {
+                    TActivity group = new TActivity();
+                    group.Station = groupDefinition.Key;
+                    this.ActivityGroupByName.Add(groupDefinition.Key, group);
+
+                    foreach (string station in groupDefinition.Value)
+                    {
+                        List<TActivity> groupsForStation;
+                        if (this.groupsByStation.TryGetValue(station, out groupsForStation) == false)
+                        {
+                            groupsForStation = new List<TActivity>();
+                            this.groupsByStation.Add(station, groupsForStation);
+                        }
+                        groupsForStation.Add(group);
+                    }
+                }
+            }
+
+            if (critterDetections.Detections.Count < 1)
+            {
+                return;
+            }
+
+            this.ActivityTotal.Survey = critterDetections.Detections[0].Survey;
+            foreach (TActivity group in this.ActivityGroupByName.Values)
+            {
+                group.Survey = critterDetections.Detections[0].Survey;
+            }
 
             foreach (CritterDetection critterDetection in critterDetections.Detections)
             {
@@ -61,40 +108,109 @@ namespace CritterShell
                     activity.Survey = critterDetection.Survey;
                     this.ActivityByStation.Add(critterDetection.Station, activity);
                 }
-
                 activity.Add(critterDetection);
+
+                List<TActivity> groupsForStation;
+                if (this.groupsByStation.TryGetValue(critterDetection.Station, out groupsForStation))
+                {
+                    foreach (TActivity group in groupsForStation)
+                    {
+                        group.Add(critterDetection);
+                    }
+                }
+
+                this.ActivityTotal.Add(critterDetection);
             }
         }
 
-        public void WriteCsv(string filePath)
+        protected override bool TryRead(Func<List<string>> readLine, out List<string> importErrors)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Write(Action<TActivity, string, List<double>, int> writeRow)
+        {
+            IEnumerable<TActivity> activity = this.ActivityByStation.Values.OrderBy(value => value.Station);
+            activity = activity.Union(this.ActivityGroupByName.Values.OrderBy(value => value.Station));
+            if (this.WriteTotal)
+            {
+                activity = activity.Union(new List<TActivity>() { this.ActivityTotal });
+            }
+
+            foreach (TActivity record in activity)
+            {
+                foreach (string identification in record.DetectionsByIdentification.Keys.OrderBy(value => value))
+                {
+                    int detectionCount;
+                    List<double> observations;
+                    if (this.WriteProbabilities)
+                    {
+                        observations = record.GetProbability(identification, out detectionCount);
+                    }
+                    else
+                    {
+                        List<int> detections = record.DetectionsByIdentification[identification];
+                        detectionCount = detections.Sum();
+                        observations = detections.Select(value => (double)value).ToList();
+                    }
+
+                    writeRow.Invoke(record, identification, observations, detectionCount);
+                }
+            }
+        }
+
+        public override void WriteCsv(string filePath)
         {
             using (TextWriter fileWriter = new StreamWriter(filePath, false))
             {
                 StringBuilder header = new StringBuilder();
-                foreach (string columnName in ActivityObservations<TActivity>.CsvColumns)
+                foreach (string columnName in ActivityObservations<TActivity>.Columns)
                 {
-                    header.Append(this.AddColumnValue(columnName));
+                    header.Append(this.AddCsvValue(columnName));
                 }
                 fileWriter.WriteLine(header.ToString());
 
-                foreach (TActivity record in this.ActivityByStation.Values.OrderBy(value => value.Station))
+                this.Write((TActivity record, string identification, List<double> observations, int detectionCount) =>
                 {
-                    foreach (string identification in record.DetectionsByIdentification.Keys.OrderBy(value => value))
+                    StringBuilder row = new StringBuilder();
+                    row.Append(this.AddCsvValue(record.Station));
+                    row.Append(this.AddCsvValue(identification));
+                    for (int index = 0; index < observations.Count; ++index)
                     {
-                        List<double> probability = record.GetProbability(identification);
-
-                        StringBuilder row = new StringBuilder();
-                        row.Append(this.AddColumnValue(record.Station));
-                        row.Append(this.AddColumnValue(identification));
-                        for (int index = 0; index < probability.Count; ++index)
-                        {
-                            row.Append(this.AddColumnValue(probability[index]));
-                        }
-                        row.Append(this.AddColumnValue(record.Survey));
-
-                        fileWriter.WriteLine(row.ToString());
+                        row.Append(this.AddCsvValue(observations[index]));
                     }
-                }
+                    row.Append(this.AddCsvValue(detectionCount));
+                    row.Append(this.AddCsvValue(record.Survey));
+
+                    fileWriter.WriteLine(row.ToString());
+                });
+            }
+        }
+
+        public override void WriteXlsx(string filePath, string worksheetName)
+        {
+            using (ExcelPackage xlsxFile = new ExcelPackage(new FileInfo(filePath)))
+            {
+                ExcelWorksheet worksheet = this.GetOrCreateBlankWorksheet(xlsxFile, worksheetName, ActivityObservations<TActivity>.Columns);
+                int row = 1;
+                this.Write((TActivity record, string identification, List<double> observations, int detectionCount) =>
+                {
+                    ++row;
+                    int column = 0;
+                    worksheet.Cells[row, ++column].Value = record.Station;
+                    worksheet.Cells[row, ++column].Value = identification;
+                    for (int observation = 0; observation < observations.Count; ++observation)
+                    {
+                        worksheet.Cells[row, ++column].Value = observations[observation];
+                    }
+                    worksheet.Cells[row, ++column].Value = detectionCount;
+                    worksheet.Cells[row, ++column].Value = record.Survey;
+                });
+
+                // match column widths to content up
+                worksheet.Cells[1, 1, worksheet.Dimension.Rows, worksheet.Dimension.Columns].AutoFitColumns(Constant.Excel.MinimumColumnWidth, Constant.Excel.MaximumColumnWidth);
+
+                xlsxFile.Save();
             }
         }
     }

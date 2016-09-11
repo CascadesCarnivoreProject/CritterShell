@@ -10,7 +10,6 @@ namespace CritterShell.Critters
         public Confidence Confidence { get; set; }
         public DateTime DateTime { get; set; }
         public string File { get; set; }
-        public string Folder { get; set; }
         public GroupType GroupType { get; set; }
         public string Identification { get; set; }
         public ImageQuality ImageQuality { get; set; }

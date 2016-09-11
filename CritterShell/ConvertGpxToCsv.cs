@@ -6,13 +6,15 @@ using System.Management.Automation;
 namespace CritterShell
 {
     [Cmdlet(VerbsData.Convert, "GpxToCsv")]
-    public class ConvertGpxToCsv : CritterCmdlet
+    public class ConvertGpxToCsv : CritterSpreadsheetCmdlet
     {
         [Parameter(Mandatory = true)]
         public string GpxFile { get; set; }
 
-        [Parameter]
-        public string OutputFile { get; set; }
+        public ConvertGpxToCsv()
+        {
+            this.OutputWorksheet = "critter sign";
+        }
 
         protected override void ProcessRecord()
         {
@@ -28,7 +30,9 @@ namespace CritterShell
 
             GpxFile gpxFile = new GpxFile(this.GpxFile);
             CritterSigns critterSign = new CritterSigns(gpxFile);
-            critterSign.WriteCsv(this.OutputFile);
+            this.WriteOutput(critterSign);
+
+            this.WriteObject(critterSign);
         }
     }
 }

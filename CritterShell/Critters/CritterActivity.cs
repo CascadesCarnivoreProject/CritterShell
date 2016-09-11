@@ -17,12 +17,6 @@ namespace CritterShell.Critters
 
         public void Add(CritterDetection detection)
         {
-            if (detection.Station != this.Station)
-            {
-                throw new ArgumentOutOfRangeException("detection", String.Format("Detection for station {0} cannot be added to activity for station {1}.", detection.Station, this.Station));
-            }
-
-            // for now, assume detections should be merged across surveys
             if (detection.Survey != this.Survey)
             {
                 this.Survey += ", " + detection.Survey;
@@ -33,14 +27,14 @@ namespace CritterShell.Critters
 
         protected abstract void AddCore(CritterDetection detection);
 
-        public List<double> GetProbability(string identification)
+        public List<double> GetProbability(string identification, out int totalDetections)
         {
             List<int> detectionCounts = this.DetectionsByIdentification[identification];
             List<double> probability = new List<double>(this.DetectionsByIdentification.Count);
-            double totalDetections = detectionCounts.Sum();
+            totalDetections = detectionCounts.Sum();
             foreach (int detectionCount in detectionCounts)
             {
-                probability.Add((double)detectionCount / totalDetections);
+                probability.Add((double)detectionCount / (double)totalDetections);
             }
             return probability;
         }

@@ -6,7 +6,7 @@ using System.Management.Automation;
 namespace CritterShell
 {
     [Cmdlet(VerbsCommon.Get, "Detections")]
-    public class GetDetections : CritterCmdlet
+    public class GetDetections : CritterSpreadsheetCmdlet
     {
         [Parameter]
         public SwitchParameter BySite { get; set; }
@@ -15,13 +15,15 @@ namespace CritterShell
         public string ImageFile { get; set; }
 
         [Parameter]
-        public string OutputFile { get; set; }
+        public string ImageWorksheet { get; set; }
 
         [Parameter]
         public TimeSpan Window { get; set; }
 
         public GetDetections()
         {
+            this.ImageWorksheet = "images";
+            this.OutputWorksheet = Constant.Excel.DefaultDetectionsWorksheetName;
             this.Window = Constant.DefaultDetectionMergeWindow;
         }
 
@@ -39,7 +41,7 @@ namespace CritterShell
 
             CritterImages critterImages = new CritterImages();
             List<string> importErrors;
-            if (critterImages.TryReadCsv(this.ImageFile, out importErrors) == false ||
+            if (critterImages.TryRead(this.ImageFile, this.ImageWorksheet, out importErrors) == false ||
                 importErrors.Count > 0)
             {
                 foreach (string importError in importErrors)
@@ -51,7 +53,9 @@ namespace CritterShell
             }
 
             CritterDetections critterDetections = new CritterDetections(critterImages, this.Window, this.BySite);
-            critterDetections.WriteCsv(this.OutputFile);
+            this.WriteOutput(critterDetections);
+
+            this.WriteObject(critterDetections);
         }
     }
 }

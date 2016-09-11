@@ -6,6 +6,14 @@ namespace CritterShell
     {
         public static readonly TimeSpan DefaultDetectionMergeWindow = TimeSpan.FromMinutes(5);
 
+        public static class ActivityColumn
+        {
+            public const string Identification = "Identification";
+            public const string N = "N";
+            public const string Station = "Station";
+            public const string Survey = "Survey";
+        }
+
         public static class CritterSignColumn
         {
             public const string Elevation = "Elevation";
@@ -40,15 +48,15 @@ namespace CritterShell
             public const string Pelage = "Pelage";
             public const string Activity = "Activity";
             public const string Comments = "Comments";
-            public const string Folder = "Folder";
             public const string Survey = "Survey";
         }
 
-        public static class DielColumn
+        public static class Excel
         {
-            public const string Identification = "Identification";
-            public const string Station = "Station";
-            public const string Survey = "Survey";
+            public const string DefaultDetectionsWorksheetName = "detections";
+            public const string Extension = ".xlsx";
+            public const double MinimumColumnWidth = 5.0;
+            public const double MaximumColumnWidth = 40.0;
         }
 
         public static class File
@@ -111,11 +119,9 @@ namespace CritterShell
             public const string Age = "Age";
             public const string Comments = "Comments";
             public const string Confidence = "Confidence";
-            public const string Date = "Date";
             public const string DateTime = "DateTime";
             public const string DeleteFlag = "DeleteFlag";
             public const string File = "File";
-            public const string Folder = "Folder";
             public const string GroupType = "GroupType";
             public const string Identification = "Identification";
             public const string ImageQuality = "ImageQuality";
@@ -123,7 +129,6 @@ namespace CritterShell
             public const string RelativePath = "RelativePath";
             public const string Station = "Station";
             public const string Survey = "Survey";
-            public const string Time = "Time";
             public const string TriggerSource = "TriggerSource";
             public const string UtcOffset = "UtcOffset";
         }

@@ -12,7 +12,6 @@ namespace CritterShell.Critters
         public TimeSpan Duration { get; set; }
         public DateTime EndDateTime { get; set; }
         public string File { get; set; }
-        public string Folder { get; set; }
         public GroupType GroupType { get; set; }
         public string Identification { get; set; }
         public string Pelage { get; set; }
@@ -36,7 +35,6 @@ namespace CritterShell.Critters
             this.Duration = TimeSpan.Zero;
             this.EndDateTime = image.DateTime;
             this.File = image.File;
-            this.Folder = image.Folder;
             this.GroupType = image.GroupType;
             this.Identification = image.Identification;
             this.Pelage = image.Pelage;
@@ -51,6 +49,14 @@ namespace CritterShell.Critters
         public DateTimeOffset GetStartDateTimeOffset()
         {
             return new DateTimeOffset(this.StartDateTime.AsUnspecifed() + this.UtcOffset, this.UtcOffset);
+        }
+
+        public void SetStartAndEndDateTimes(DateTimeOffset newStartTime)
+        {
+            TimeSpan adjustment = newStartTime - this.GetStartDateTimeOffset();
+            this.EndDateTime += adjustment;
+            this.StartDateTime = newStartTime.UtcDateTime;
+            this.UtcOffset = newStartTime.Offset;
         }
 
         public bool TryMerge(CritterDetection other, TimeSpan window)

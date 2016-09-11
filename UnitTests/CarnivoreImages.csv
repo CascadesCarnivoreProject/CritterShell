@@ -1,99 +1,99 @@
-Station,File,DateTime,UtcOffset,Identification,Confidence,GroupType,Age,Pelage,Activity,Comments,Survey,RelativePath,TriggerSource,DeleteFlag,Folder,Date,Time,ImageQuality
-DS02G,09050095.JPG,2015-09-05T07:36:26.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:36:26,Ok
-DS02G,09050096.JPG,2015-09-05T07:36:27.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:36:27,Ok
-DS02G,09050097.JPG,2015-09-05T07:36:27.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:36:27,Ok
-DS02G,09050098.JPG,2015-09-05T07:38:28.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:38:28,Ok
-DS02G,09050099.JPG,2015-09-05T07:38:29.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:38:29,Ok
-DS02G,09050100.JPG,2015-09-05T07:38:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:38:30,Ok
-DS02G,09050101.JPG,2015-09-05T07:49:17.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:49:17,Ok
-DS02G,09050102.JPG,2015-09-05T07:49:18.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:49:18,Ok
-DS02G,09050103.JPG,2015-09-05T07:49:19.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,05-Sep-15,0:49:19,Ok
-DS02G,09180227.JPG,2015-09-18T07:11:47.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:11:47,Ok
-DS02G,09180228.JPG,2015-09-18T07:11:48.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:11:48,Ok
-DS02G,09180229.JPG,2015-09-18T07:11:48.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:11:48,Ok
-DS02G,09180230.JPG,2015-09-18T07:12:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:12:24,Ok
-DS02G,09180231.JPG,2015-09-18T07:12:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:12:24,Ok
-DS02G,09180232.JPG,2015-09-18T07:12:25.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:12:25,Ok
-DS02G,09180233.JPG,2015-09-18T07:13:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:15,Ok
-DS02G,09180234.JPG,2015-09-18T07:13:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:15,Ok
-DS02G,09180235.JPG,2015-09-18T07:13:16.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:16,Ok
-DS02G,09180236.JPG,2015-09-18T07:13:19.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:19,Ok
-DS02G,09180237.JPG,2015-09-18T07:13:20.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:20,Ok
-DS02G,09180238.JPG,2015-09-18T07:13:21.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:21,Ok
-DS02G,09180239.JPG,2015-09-18T07:13:36.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:36,Ok
-DS02G,09180240.JPG,2015-09-18T07:13:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:37,Ok
-DS02G,09180241.JPG,2015-09-18T07:13:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,0:13:37,Ok
-DS02G,09180248.JPG,2015-09-19T06:28:14.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:14,Ok
-DS02G,09180249.JPG,2015-09-19T06:28:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:15,Ok
-DS02G,09180250.JPG,2015-09-19T06:28:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:15,Ok
-DS02G,09180251.JPG,2015-09-19T06:28:23.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:23,Ok
-DS02G,09180252.JPG,2015-09-19T06:28:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:24,Ok
-DS02G,09180253.JPG,2015-09-19T06:28:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:24,Ok
-DS02G,09180254.JPG,2015-09-19T06:28:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:37,Ok
-DS02G,09180255.JPG,2015-09-19T06:28:38.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:38,Ok
-DS02G,09180256.JPG,2015-09-19T06:28:38.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:38,Ok
-DS02G,09180257.JPG,2015-09-19T06:28:44.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:44,Ok
-DS02G,09180258.JPG,2015-09-19T06:28:45.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:45,Ok
-DS02G,09180259.JPG,2015-09-19T06:28:46.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:46,Ok
-DS02G,09180260.JPG,2015-09-19T06:28:58.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:58,Ok
-DS02G,09180261.JPG,2015-09-19T06:28:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:28:59,Ok
-DS02G,09180262.JPG,2015-09-19T06:29:00.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:29:00,Ok
-DS02G,09180263.JPG,2015-09-19T06:36:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:36:59,Ok
-DS02G,09180264.JPG,2015-09-19T06:36:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:36:59,Ok
-DS02G,09180265.JPG,2015-09-19T06:37:00.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:00,Ok
-DS02G,09180266.JPG,2015-09-19T06:37:06.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:06,Ok
-DS02G,09180267.JPG,2015-09-19T06:37:07.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:07,Ok
-DS02G,09180268.JPG,2015-09-19T06:37:07.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:07,Ok
-DS02G,09180269.JPG,2015-09-19T06:37:13.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:13,Ok
-DS02G,09180270.JPG,2015-09-19T06:37:14.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:14,Ok
-DS02G,09180271.JPG,2015-09-19T06:37:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,18-Sep-15,23:37:15,Ok
-DS02G,09210338.JPG,2015-09-21T07:03:20.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:20,Ok
-DS02G,09210339.JPG,2015-09-21T07:03:21.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:21,Ok
-DS02G,09210340.JPG,2015-09-21T07:03:22.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:22,Ok
-DS02G,09210341.JPG,2015-09-21T07:03:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:30,Ok
-DS02G,09210342.JPG,2015-09-21T07:03:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:30,Ok
-DS02G,09210343.JPG,2015-09-21T07:03:31.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,2015-16,21-Sep-15,0:03:31,Ok
-DS05G,09040116.JPG,2015-09-05T00:38:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:38:57,Ok
-DS05G,09040117.JPG,2015-09-05T00:38:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:38:57,Ok
-DS05G,09040118.JPG,2015-09-05T00:39:22.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:22,Ok
-DS05G,09040119.JPG,2015-09-05T00:39:23.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:23,Ok
-DS05G,09040120.JPG,2015-09-05T00:39:23.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:23,Ok
-DS05G,09040121.JPG,2015-09-05T00:39:26.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:26,Ok
-DS05G,09040122.JPG,2015-09-05T00:39:27.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:27,Ok
-DS05G,09040123.JPG,2015-09-05T00:39:27.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,04-Sep-15,17:39:27,Ok
-DS05G,09080586.JPG,2015-09-08T15:24:58.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,8:24:58,Ok
-DS05G,09080587.JPG,2015-09-08T15:24:58.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,8:24:58,Ok
-DS05G,09080588.JPG,2015-09-08T15:24:59.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,8:24:59,Ok
-DS05G,09080604.JPG,2015-09-08T21:44:51.000Z,-7,deer,high,single,adult, ,unknown,doe with two fawns,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:51,Ok
-DS05G,09080605.JPG,2015-09-08T21:44:52.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:52,Ok
-DS05G,09080606.JPG,2015-09-08T21:44:52.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:52,Ok
-DS05G,09080607.JPG,2015-09-08T21:44:56.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:56,Ok
-DS05G,09080608.JPG,2015-09-08T21:44:56.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:56,Ok
-DS05G,09080609.JPG,2015-09-08T21:44:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:44:57,Ok
-DS05G,09080616.JPG,2015-09-08T21:47:04.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:04,Ok
-DS05G,09080617.JPG,2015-09-08T21:47:05.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:05,Ok
-DS05G,09080618.JPG,2015-09-08T21:47:05.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:05,Ok
-DS05G,09080619.JPG,2015-09-08T21:47:09.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:09,Ok
-DS05G,09080620.JPG,2015-09-08T21:47:10.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:10,Ok
-DS05G,09080621.JPG,2015-09-08T21:47:10.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:10,Ok
-DS05G,09080625.JPG,2015-09-08T21:47:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:18,Ok
-DS05G,09080626.JPG,2015-09-08T21:47:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:18,Ok
-DS05G,09080627.JPG,2015-09-08T21:47:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:19,Ok
-DS05G,09080631.JPG,2015-09-08T21:47:43.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:43,Ok
-DS05G,09080632.JPG,2015-09-08T21:47:44.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:44,Ok
-DS05G,09080633.JPG,2015-09-08T21:47:44.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:44,Ok
-DS05G,09080634.JPG,2015-09-08T21:47:51.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:51,Ok
-DS05G,09080635.JPG,2015-09-08T21:47:52.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:52,Ok
-DS05G,09080636.JPG,2015-09-08T21:47:53.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:53,Ok
-DS05G,09080637.JPG,2015-09-08T21:47:56.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:56,Ok
-DS05G,09080638.JPG,2015-09-08T21:47:57.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:57,Ok
-DS05G,09080639.JPG,2015-09-08T21:47:57.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:47:57,Ok
-DS05G,09080640.JPG,2015-09-08T21:48:02.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:02,Ok
-DS05G,09080641.JPG,2015-09-08T21:48:03.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:03,Ok
-DS05G,09080642.JPG,2015-09-08T21:48:03.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:03,Ok
-DS05G,09080643.JPG,2015-09-08T21:48:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:18,Ok
-DS05G,09080644.JPG,2015-09-08T21:48:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:19,Ok
-DS05G,09080645.JPG,2015-09-08T21:48:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,14:48:19,Ok
-DS05G,09080652.JPG,2015-09-09T00:08:17.000Z,-7,raptor,high,single,adult, ,unknown,"most likely small goshawk or large Cooper's hawk, reviewed by Jon Nelson",Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,17:08:17,Ok
-DS05G,09080653.JPG,2015-09-09T00:08:18.000Z,-7,raptor,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,17:08:18,Ok
-DS05G,09080654.JPG,2015-09-09T00:08:18.000Z,-7,raptor,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,2015-16,08-Sep-15,17:08:18,Ok
+Station,File,DateTime,UtcOffset,Identification,Confidence,GroupType,Age,Pelage,Activity,Comments,Survey,RelativePath,TriggerSource,DeleteFlag,ImageQuality
+DS02G,09050095.JPG,2015-09-05T07:36:26.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050096.JPG,2015-09-05T07:36:27.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050097.JPG,2015-09-05T07:36:27.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050098.JPG,2015-09-05T07:38:28.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050099.JPG,2015-09-05T07:38:29.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050100.JPG,2015-09-05T07:38:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050101.JPG,2015-09-05T07:49:17.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050102.JPG,2015-09-05T07:49:18.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09050103.JPG,2015-09-05T07:49:19.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180227.JPG,2015-09-18T07:11:47.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180228.JPG,2015-09-18T07:11:48.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180229.JPG,2015-09-18T07:11:48.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180230.JPG,2015-09-18T07:12:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180231.JPG,2015-09-18T07:12:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180232.JPG,2015-09-18T07:12:25.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180233.JPG,2015-09-18T07:13:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180234.JPG,2015-09-18T07:13:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180235.JPG,2015-09-18T07:13:16.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180236.JPG,2015-09-18T07:13:19.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180237.JPG,2015-09-18T07:13:20.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180238.JPG,2015-09-18T07:13:21.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180239.JPG,2015-09-18T07:13:36.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180240.JPG,2015-09-18T07:13:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180241.JPG,2015-09-18T07:13:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180248.JPG,2015-09-19T06:28:14.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180249.JPG,2015-09-19T06:28:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180250.JPG,2015-09-19T06:28:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180251.JPG,2015-09-19T06:28:23.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180252.JPG,2015-09-19T06:28:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180253.JPG,2015-09-19T06:28:24.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180254.JPG,2015-09-19T06:28:37.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180255.JPG,2015-09-19T06:28:38.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180256.JPG,2015-09-19T06:28:38.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180257.JPG,2015-09-19T06:28:44.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180258.JPG,2015-09-19T06:28:45.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180259.JPG,2015-09-19T06:28:46.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180260.JPG,2015-09-19T06:28:58.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180261.JPG,2015-09-19T06:28:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180262.JPG,2015-09-19T06:29:00.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180263.JPG,2015-09-19T06:36:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180264.JPG,2015-09-19T06:36:59.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180265.JPG,2015-09-19T06:37:00.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180266.JPG,2015-09-19T06:37:06.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180267.JPG,2015-09-19T06:37:07.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180268.JPG,2015-09-19T06:37:07.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180269.JPG,2015-09-19T06:37:13.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180270.JPG,2015-09-19T06:37:14.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09180271.JPG,2015-09-19T06:37:15.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210338.JPG,2015-09-21T07:03:20.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210339.JPG,2015-09-21T07:03:21.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210340.JPG,2015-09-21T07:03:22.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210341.JPG,2015-09-21T07:03:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210342.JPG,2015-09-21T07:03:30.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS02G,09210343.JPG,2015-09-21T07:03:31.000Z,-7,red fox,high,single,adult,silver,unknown,,Cascades Carnivore 2015-16,DS02\20151110TW\Fox,critter,FALSE,Ok
+DS05G,09040116.JPG,2015-09-05T00:38:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040117.JPG,2015-09-05T00:38:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040118.JPG,2015-09-05T00:39:22.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040119.JPG,2015-09-05T00:39:23.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040120.JPG,2015-09-05T00:39:23.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040121.JPG,2015-09-05T00:39:26.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040122.JPG,2015-09-05T00:39:27.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09040123.JPG,2015-09-05T00:39:27.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080586.JPG,2015-09-08T15:24:58.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080587.JPG,2015-09-08T15:24:58.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080588.JPG,2015-09-08T15:24:59.000Z,-7,chipmunk,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080604.JPG,2015-09-08T21:44:51.000Z,-7,deer,high,single,adult, ,unknown,doe with two fawns,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080605.JPG,2015-09-08T21:44:52.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080606.JPG,2015-09-08T21:44:52.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080607.JPG,2015-09-08T21:44:56.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080608.JPG,2015-09-08T21:44:56.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080609.JPG,2015-09-08T21:44:57.000Z,-7,deer,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080616.JPG,2015-09-08T21:47:04.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080617.JPG,2015-09-08T21:47:05.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080618.JPG,2015-09-08T21:47:05.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080619.JPG,2015-09-08T21:47:09.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080620.JPG,2015-09-08T21:47:10.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080621.JPG,2015-09-08T21:47:10.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080625.JPG,2015-09-08T21:47:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080626.JPG,2015-09-08T21:47:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080627.JPG,2015-09-08T21:47:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080631.JPG,2015-09-08T21:47:43.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080632.JPG,2015-09-08T21:47:44.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080633.JPG,2015-09-08T21:47:44.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080634.JPG,2015-09-08T21:47:51.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080635.JPG,2015-09-08T21:47:52.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080636.JPG,2015-09-08T21:47:53.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080637.JPG,2015-09-08T21:47:56.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080638.JPG,2015-09-08T21:47:57.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080639.JPG,2015-09-08T21:47:57.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080640.JPG,2015-09-08T21:48:02.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080641.JPG,2015-09-08T21:48:03.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080642.JPG,2015-09-08T21:48:03.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080643.JPG,2015-09-08T21:48:18.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080644.JPG,2015-09-08T21:48:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080645.JPG,2015-09-08T21:48:19.000Z,-7,deer,high,single,juvenile, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080652.JPG,2015-09-09T00:08:17.000Z,-7,raptor,high,single,adult, ,unknown,"most likely small goshawk or large Cooper's hawk, reviewed by Jon Nelson",Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080653.JPG,2015-09-09T00:08:18.000Z,-7,raptor,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
+DS05G,09080654.JPG,2015-09-09T00:08:18.000Z,-7,raptor,high,single,adult, ,unknown, ,Cascades Carnivore 2015-16,DS05\20151106TW\DS05G\Critters,critter,FALSE,Ok
