@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CritterShell.Critters;
+using System;
 using System.IO;
 using System.Management.Automation;
 
@@ -8,16 +8,16 @@ namespace CritterShell
     [Cmdlet(VerbsCommon.Get, "Detections")]
     public class GetDetections : CritterSpreadsheetCmdlet
     {
-        [Parameter]
+        [Parameter(HelpMessage = "Truncate station names to only their first four characters, as that's normally the indicator of the site where a station's located.")]
         public SwitchParameter BySite { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = "Path to .csv or .xlsx file listing analyzed images.")]
         public string ImageFile { get; set; }
 
-        [Parameter]
+        [Parameter(HelpMessage = "The name of the worksheet to read images from if -ImageFile is an .xlsx file.  Not used if -ImageFile is a .csv.  Defaults to 'images'.")]
         public string ImageWorksheet { get; set; }
 
-        [Parameter]
+        [Parameter(HelpMessage = "The interval within which images with the same analysis are merged form a detection.  Defaults to five minutes.")]
         public TimeSpan Window { get; set; }
 
         public GetDetections()
@@ -30,25 +30,21 @@ namespace CritterShell
         protected override void ProcessRecord()
         {
             this.ImageFile = this.CanonicalizePath(this.ImageFile);
-            if (String.IsNullOrEmpty(this.OutputFile))
-            {
-                this.OutputFile = Path.Combine(Path.GetDirectoryName(this.ImageFile), Path.GetFileNameWithoutExtension(this.ImageFile) + "-detections" + Path.GetExtension(this.ImageFile));
-            }
-            else
-            {
-                this.OutputFile = this.CanonicalizePath(this.OutputFile);
-            }
+            this.CanonicalizeOrDefaultOutputFile(this.ImageFile, "-detections");
 
             CritterImages critterImages = new CritterImages();
-            List<string> importErrors;
-            if (critterImages.TryRead(this.ImageFile, this.ImageWorksheet, out importErrors) == false ||
-                importErrors.Count > 0)
+            FileReadResult readResult = critterImages.TryRead(this.ImageFile, this.ImageWorksheet);
+            foreach (string importMessage in readResult.Verbose)
             {
-                foreach (string importError in importErrors)
-                {
-                    this.WriteWarning(importError);
-                }
-                this.WriteError(new ErrorRecord(null, "CsvImport", ErrorCategory.InvalidData, this.ImageFile));
+                this.WriteVerbose(importMessage);
+            }
+            foreach (string importError in readResult.Warnings)
+            {
+                this.WriteWarning(importError);
+            }
+            if (readResult.Failed || readResult.Warnings.Count > Constant.File.MaximumImportWarnings)
+            {
+                this.WriteError(new ErrorRecord(new FileLoadException("Too many warnings encountered loading image file.", this.ImageFile), "ImageLoading", ErrorCategory.InvalidData, this.ImageFile));
                 return;
             }
 

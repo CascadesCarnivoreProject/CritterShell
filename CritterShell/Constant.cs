@@ -62,6 +62,7 @@ namespace CritterShell
         public static class File
         {
             public const string JpgExtension = ".jpg";
+            public const int MaximumImportWarnings = 1;
         }
 
         public static class GarminExtension

@@ -6,5 +6,9 @@ namespace CritterShell
     [Cmdlet(VerbsCommon.Get, "DielActivity")]
     public class GetDielActivity : ActivityCmdlet<CritterDielActivity>
     {
+        public GetDielActivity()
+        {
+            this.OutputWorksheet = "diel activity";
+        }
     }
 }

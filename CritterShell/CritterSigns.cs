@@ -11,21 +11,21 @@ namespace CritterShell
 {
     internal class CritterSigns : SpreadsheetReaderWriter
     {
-        private static readonly ReadOnlyCollection<string> Columns;
+        private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
         public List<CritterSign> Signs { get; private set; }
 
         static CritterSigns()
         {
-            CritterSigns.Columns = new List<string>()
+            CritterSigns.Columns = new List<ColumnDefinition>()
             {
-                Constant.CritterSignColumn.Name,
-                Constant.CritterSignColumn.Latitude,
-                Constant.CritterSignColumn.Longitude,
-                Constant.CritterSignColumn.Elevation,
-                Constant.CritterSignColumn.Time,
-                Constant.CritterSignColumn.Identification,
-                Constant.CritterSignColumn.Type
+                new ColumnDefinition(Constant.CritterSignColumn.Name, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Latitude, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Longitude, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Elevation, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Time, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Identification, true),
+                new ColumnDefinition(Constant.CritterSignColumn.Type, true)
             }.AsReadOnly();
         }
 
@@ -40,7 +40,7 @@ namespace CritterShell
             }
         }
 
-        protected override bool TryRead(Func<List<string>> readLine, out List<string> importErrors)
+        protected override FileReadResult TryRead(Func<List<string>> readLine)
         {
             throw new NotImplementedException();
         }
@@ -50,9 +50,9 @@ namespace CritterShell
             using (TextWriter fileWriter = new StreamWriter(filePath, false))
             {
                 StringBuilder header = new StringBuilder();
-                foreach (string columnName in CritterSigns.Columns)
+                foreach (ColumnDefinition column in CritterSigns.Columns)
                 {
-                    header.Append(this.AddCsvValue(columnName));
+                    header.Append(this.AddCsvValue(column.Name));
                 }
                 fileWriter.WriteLine(header.ToString());
 

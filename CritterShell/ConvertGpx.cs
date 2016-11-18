@@ -5,13 +5,13 @@ using System.Management.Automation;
 
 namespace CritterShell
 {
-    [Cmdlet(VerbsData.Convert, "GpxToCsv")]
-    public class ConvertGpxToCsv : CritterSpreadsheetCmdlet
+    [Cmdlet(VerbsData.Convert, "Gpx")]
+    public class ConvertGpx : CritterSpreadsheetCmdlet
     {
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = "The input .gpx file to convert to .csv or .xlsx.")]
         public string GpxFile { get; set; }
 
-        public ConvertGpxToCsv()
+        public ConvertGpx()
         {
             this.OutputWorksheet = "critter sign";
         }

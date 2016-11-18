@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using CritterShell.Critters;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,7 +47,7 @@ namespace CritterShell
             }
         }
 
-        protected ExcelWorksheet GetOrCreateBlankWorksheet(ExcelPackage xlsxFile, string worksheetName, ReadOnlyCollection<string> columnHeaders)
+        protected ExcelWorksheet GetOrCreateBlankWorksheet(ExcelPackage xlsxFile, string worksheetName, ReadOnlyCollection<ColumnDefinition> columnHeaders)
         {
             // get empty worksheet
             ExcelWorksheet worksheet = xlsxFile.Workbook.Worksheets.FirstOrDefault(sheet => sheet.Name == worksheetName);
@@ -63,7 +64,7 @@ namespace CritterShell
             // write header
             for (int index = 0; index < columnHeaders.Count; ++index)
             {
-                worksheet.Cells[1, index + 1].Value = columnHeaders[index];
+                worksheet.Cells[1, index + 1].Value = columnHeaders[index].Name;
             }
 
             ExcelRange headerCells = worksheet.Cells[1, 1, 1, columnHeaders.Count];
@@ -75,14 +76,6 @@ namespace CritterShell
 
         protected bool ParseBoolean(string value)
         {
-            if (String.IsNullOrWhiteSpace(value) || value == "0")
-            {
-                return false;
-            }
-            if (value == "1")
-            {
-                return true;
-            }
             return Boolean.Parse(value);
         }
 
@@ -192,20 +185,29 @@ namespace CritterShell
             List<string> rowContent = new List<string>(worksheet.Dimension.Columns);
             for (int column = 1; column <= worksheet.Dimension.Columns; ++column)
             {
-                rowContent.Add(worksheet.Cells[row, column].Text);
+                ExcelRange cell = worksheet.Cells[row, column];
+                if (cell.Value is bool)
+                {
+                    bool cellValue = (bool)cell.Value;
+                    rowContent.Add(cellValue ? Boolean.TrueString : Boolean.FalseString);
+                }
+                else
+                {
+                    rowContent.Add(cell.Text);
+                }
             }
             return rowContent;
         }
 
-        public bool TryRead(string filePath, string worksheetName, out List<string> importErrors)
+        public FileReadResult TryRead(string filePath, string worksheetName)
         {
             if (String.Equals(Path.GetExtension(filePath), Constant.Csv.Extension, StringComparison.OrdinalIgnoreCase))
             {
-                return this.TryReadCsv(filePath, out importErrors);
+                return this.TryReadCsv(filePath);
             }
             else if (String.Equals(Path.GetExtension(filePath), Constant.Excel.Extension, StringComparison.OrdinalIgnoreCase))
             {
-                return this.TryReadXlsx(filePath, worksheetName, out importErrors);
+                return this.TryReadXlsx(filePath, worksheetName);
             }
             else
             {
@@ -213,62 +215,72 @@ namespace CritterShell
             }
         }
 
-        protected abstract bool TryRead(Func<List<string>> readLine, out List<string> importErrors);
+        protected abstract FileReadResult TryRead(Func<List<string>> readLine);
 
-        private bool TryReadCsv(string filePath, out List<string> importErrors)
+        private FileReadResult TryReadCsv(string filePath)
         {
             using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (StreamReader csvReader = new StreamReader(stream))
                 {
-                    return this.TryRead(() =>
-                    {
-                        return this.ReadAndParseCsvLine(csvReader);
-                    },
-                        out importErrors);
+                    return this.TryRead(() => { return this.ReadAndParseCsvLine(csvReader); });
                 }
             }
         }
 
-        private bool TryReadXlsx(string filePath, string worksheetName, out List<string> importErrors)
+        private FileReadResult TryReadXlsx(string filePath, string worksheetName)
         {
             if (String.IsNullOrWhiteSpace(worksheetName))
             {
                 throw new ArgumentOutOfRangeException("worksheetName");
             }
 
-            using (ExcelPackage xlsxFile = new ExcelPackage(new FileInfo(filePath)))
+            try
             {
-                ExcelWorksheet worksheet = xlsxFile.Workbook.Worksheets.First(sheet => sheet.Name == worksheetName);
-                int row = 0;
-                return this.TryRead(() =>
+                using (ExcelPackage xlsxFile = new ExcelPackage(new FileInfo(filePath)))
                 {
-                    return this.ReadXlsxRow(worksheet, ++row);
-                },
-                    out importErrors);
+                    ExcelWorksheet worksheet = xlsxFile.Workbook.Worksheets.First(sheet => sheet.Name == worksheetName);
+                    int row = 0;
+                    return this.TryRead(() => { return this.ReadXlsxRow(worksheet, ++row); });
+                }
+            }
+            catch (IOException ioException)
+            {
+                FileReadResult result = new FileReadResult();
+                result.Failed = true;
+                result.Warnings.Add(ioException.ToString());
+                return result;
             }
         }
 
-        protected bool VerifyHeader(List<string> columnsFromFile, ReadOnlyCollection<string> expectedColumns, out List<string> importErrors)
+        protected FileReadResult VerifyHeader(List<string> columnsFromFile, ReadOnlyCollection<ColumnDefinition> knownColumns)
         {
-            importErrors = new List<string>();
+            FileReadResult verifyResult = new FileReadResult();
             if (columnsFromFile == null)
             {
-                return false;
+                verifyResult.Failed = true;
+                return verifyResult;
             }
 
-            List<string> columnsMissingFromFile = expectedColumns.Except(columnsFromFile).ToList();
-            foreach (string dataLabel in columnsMissingFromFile)
+            List<string> knownColumnNames = knownColumns.Select(column => column.Name).ToList();
+            List<string> missingColumns = knownColumnNames.Except(columnsFromFile).ToList();
+            foreach (string dataLabel in missingColumns)
             {
-                importErrors.Add("- The column '" + dataLabel + "' is not present in the input file." + Environment.NewLine);
+                ColumnDefinition knownColumn = knownColumns.First(column => column.Name == dataLabel);
+                if (knownColumn.IsRequired)
+                {
+                    verifyResult.Failed = true;
+                }
+                verifyResult.Warnings.Add("- The column '" + dataLabel + "' is not present in the input file." + Environment.NewLine);
             }
-            List<string> extraColumnsInFile = columnsFromFile.Except(expectedColumns).ToList();
+
+            List<string> extraColumnsInFile = columnsFromFile.Except(knownColumnNames).ToList();
             foreach (string dataLabel in extraColumnsInFile)
             {
-                importErrors.Add("- The column '" + dataLabel + "' is unexpectedly present in the input file." + Environment.NewLine);
+                verifyResult.Verbose.Add("- The column '" + dataLabel + "' in the input file will be ignored." + Environment.NewLine);
             }
 
-            return importErrors.Count == 0;
+            return verifyResult;
         }
 
         public abstract void WriteCsv(string filePath);

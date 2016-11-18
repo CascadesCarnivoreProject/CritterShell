@@ -12,30 +12,30 @@ namespace CritterShell
 {
     internal class CritterDetections : SpreadsheetReaderWriter
     {
-        private static readonly ReadOnlyCollection<string> Columns;
+        private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
         public List<CritterDetection> Detections { get; private set; }
 
         static CritterDetections()
         {
-            CritterDetections.Columns = new List<string>()
+            CritterDetections.Columns = new List<ColumnDefinition>()
             {
-                Constant.DetectionColumn.Station,
-                Constant.DetectionColumn.File,
-                Constant.DetectionColumn.RelativePath,
-                Constant.DetectionColumn.StartDateTime,
-                Constant.DetectionColumn.EndDateTime,
-                Constant.DetectionColumn.UtcOffset,
-                Constant.DetectionColumn.Duration,
-                Constant.DetectionColumn.TriggerSource,
-                Constant.DetectionColumn.Identification,
-                Constant.DetectionColumn.Confidence,
-                Constant.DetectionColumn.GroupType,
-                Constant.DetectionColumn.Age,
-                Constant.DetectionColumn.Pelage,
-                Constant.DetectionColumn.Activity,
-                Constant.DetectionColumn.Comments,
-                Constant.DetectionColumn.Survey
+                new ColumnDefinition(Constant.DetectionColumn.Station, true),
+                new ColumnDefinition(Constant.DetectionColumn.File, true),
+                new ColumnDefinition(Constant.DetectionColumn.RelativePath, true),
+                new ColumnDefinition(Constant.DetectionColumn.StartDateTime, true),
+                new ColumnDefinition(Constant.DetectionColumn.EndDateTime, true),
+                new ColumnDefinition(Constant.DetectionColumn.UtcOffset, true),
+                new ColumnDefinition(Constant.DetectionColumn.Duration),
+                new ColumnDefinition(Constant.DetectionColumn.TriggerSource),
+                new ColumnDefinition(Constant.DetectionColumn.Identification, true),
+                new ColumnDefinition(Constant.DetectionColumn.Confidence),
+                new ColumnDefinition(Constant.DetectionColumn.GroupType),
+                new ColumnDefinition(Constant.DetectionColumn.Age),
+                new ColumnDefinition(Constant.DetectionColumn.Pelage),
+                new ColumnDefinition(Constant.DetectionColumn.Activity),
+                new ColumnDefinition(Constant.DetectionColumn.Comments),
+                new ColumnDefinition(Constant.DetectionColumn.Survey)
             }.AsReadOnly();
         }
 
@@ -90,13 +90,14 @@ namespace CritterShell
             }
         }
 
-        protected override bool TryRead(Func<List<string>> readLine, out List<string> importErrors)
+        protected override FileReadResult TryRead(Func<List<string>> readLine)
         {
             // validate header row against expectations
             List<string> dataLabelsFromHeader = readLine.Invoke();
-            if (this.VerifyHeader(dataLabelsFromHeader, CritterDetections.Columns, out importErrors) == false)
+            FileReadResult readResult = this.VerifyHeader(dataLabelsFromHeader, CritterDetections.Columns);
+            if (readResult.Failed)
             {
-                return false;
+                return readResult;
             }
 
             // read data
@@ -105,16 +106,17 @@ namespace CritterShell
             int startDateTimeIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.StartDateTime);
             int endDateTimeIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.EndDateTime);
             int utcOffsetIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.UtcOffset);
-            int surveyIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Survey);
             int stationIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Station);
-            int triggerSourceIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.TriggerSource);
-            int confidenceIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Confidence);
             int identificationIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Identification);
-            int ageIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Age);
-            int groupTypeIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.GroupType);
+
             int activityIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Activity);
-            int pelageIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Pelage);
+            int ageIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Age);
             int commentsIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Comments);
+            int confidenceIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Confidence);
+            int groupTypeIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.GroupType);
+            int pelageIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Pelage);
+            int triggerSourceIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.TriggerSource);
+            int surveyIndex = dataLabelsFromHeader.IndexOf(Constant.DetectionColumn.Survey);
             for (List<string> row = readLine.Invoke(); row != null; row = readLine.Invoke())
             {
                 if (row.Count == CritterDetections.Columns.Count - 1)
@@ -130,25 +132,52 @@ namespace CritterShell
                 }
 
                 CritterDetection detection = new CritterDetection();
+                // required columns
                 detection.File = row[fileIndex];
                 detection.RelativePath = row[relativePathIndex];
                 detection.StartDateTime = this.ParseUtcDateTime(row[startDateTimeIndex]);
                 detection.EndDateTime = this.ParseUtcDateTime(row[endDateTimeIndex]);
                 detection.UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]);
-                detection.Survey = row[surveyIndex];
                 detection.Station = row[stationIndex];
-                detection.TriggerSource = this.ParseEnum<TriggerSource>(row[triggerSourceIndex]);
-                detection.Confidence = this.ParseEnum<Confidence>(row[confidenceIndex]);
                 detection.Identification = row[identificationIndex];
-                detection.Age = this.ParseEnum<Age>(row[ageIndex]);
-                detection.GroupType = this.ParseEnum<GroupType>(row[groupTypeIndex]);
-                detection.Activity = this.ParseEnum<Activity>(row[activityIndex]);
-                detection.Pelage = row[pelageIndex];
-                detection.Comments = row[commentsIndex];
+
+                // optional columns
+                if (activityIndex != -1)
+                {
+                    detection.Activity = this.ParseEnum<Activity>(row[activityIndex]);
+                }
+                if (ageIndex != -1)
+                {
+                    detection.Age = this.ParseEnum<Age>(row[ageIndex]);
+                }
+                if (commentsIndex != -1)
+                {
+                    detection.Comments = row[commentsIndex];
+                }
+                if (confidenceIndex != -1)
+                {
+                    detection.Confidence = this.ParseEnum<Confidence>(row[confidenceIndex]);
+                }
+                if (groupTypeIndex != -1)
+                {
+                    detection.GroupType = this.ParseEnum<GroupType>(row[groupTypeIndex]);
+                }
+                if (pelageIndex != -1)
+                {
+                    detection.Pelage = row[pelageIndex];
+                }
+                if (triggerSourceIndex != -1)
+                {
+                    detection.TriggerSource = this.ParseEnum<TriggerSource>(row[triggerSourceIndex]);
+                }
+                if (surveyIndex != -1)
+                {
+                    detection.Survey = row[surveyIndex];
+                }
                 this.Detections.Add(detection);
             }
 
-            return true;
+            return readResult;
         }
 
         public override void WriteCsv(string filePath)
@@ -156,9 +185,9 @@ namespace CritterShell
             using (TextWriter fileWriter = new StreamWriter(filePath, false))
             {
                 StringBuilder header = new StringBuilder();
-                foreach (string columnName in CritterDetections.Columns)
+                foreach (ColumnDefinition column in CritterDetections.Columns)
                 {
-                    header.Append(this.AddCsvValue(columnName));
+                    header.Append(this.AddCsvValue(column.Name));
                 }
                 fileWriter.WriteLine(header.ToString());
 

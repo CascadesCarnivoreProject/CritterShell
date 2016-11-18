@@ -60,6 +60,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ReadWrite.cs" />
     <Compile Include="TestConstant.cs" />
     <Compile Include="Conversions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

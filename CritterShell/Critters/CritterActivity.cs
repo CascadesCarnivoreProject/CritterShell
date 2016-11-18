@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CritterShell.Critters
@@ -8,18 +7,19 @@ namespace CritterShell.Critters
     {
         public Dictionary<string, List<int>> DetectionsByIdentification { get; private set; }
         public string Station { get; set; }
-        public string Survey { get; set; }
+        public List<string> Surveys { get; set; }
 
         protected CritterActivity()
         {
             this.DetectionsByIdentification = new Dictionary<string, List<int>>();
+            this.Surveys = new List<string>();
         }
 
         public void Add(CritterDetection detection)
         {
-            if (detection.Survey != this.Survey)
+            if (this.Surveys.Contains(detection.Survey) == false)
             {
-                this.Survey += ", " + detection.Survey;
+                this.Surveys.Add(detection.Survey);
             }
 
             this.AddCore(detection);

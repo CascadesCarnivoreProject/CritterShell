@@ -11,7 +11,7 @@ namespace CritterShell
 {
     internal class ActivityObservations<TActivity> : SpreadsheetReaderWriter where TActivity : CritterActivity, new()
     {
-        private static readonly ReadOnlyCollection<string> Columns;
+        private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
         private Dictionary<string, List<TActivity>> groupsByStation;
 
@@ -23,10 +23,10 @@ namespace CritterShell
 
         static ActivityObservations()
         {
-            List<string> columns = new List<string>()
+            List<ColumnDefinition> columns = new List<ColumnDefinition>()
             {
-                Constant.ActivityColumn.Station,
-                Constant.ActivityColumn.Identification
+                new ColumnDefinition(Constant.ActivityColumn.Station, true),
+                new ColumnDefinition(Constant.ActivityColumn.Identification, true)
             };
 
             if (typeof(TActivity) == typeof(CritterDielActivity))
@@ -34,7 +34,7 @@ namespace CritterShell
                 for (int hour = 0; hour < Constant.Time.HoursInDay; ++hour)
                 {
                     TimeSpan midpointOfHour = TimeSpan.FromHours(hour) + TimeSpan.FromMinutes(30.0);
-                    columns.Add(midpointOfHour.ToString(Constant.Time.HourOfDayFormatWithoutSign));
+                    columns.Add(new ColumnDefinition(midpointOfHour.ToString(Constant.Time.HourOfDayFormatWithoutSign), true));
                 }
             }
             else if (typeof(TActivity) == typeof(CritterMonthlyActivity))
@@ -42,7 +42,7 @@ namespace CritterShell
                 DateTime utcNow = DateTime.UtcNow;
                 for (int month = 0; month < Constant.Time.MonthsInYear; ++month)
                 {
-                    columns.Add(new DateTime(utcNow.Year, month + 1, 1).ToString(Constant.Time.MonthShortFormat));
+                    columns.Add(new ColumnDefinition(new DateTime(utcNow.Year, month + 1, 1).ToString(Constant.Time.MonthShortFormat), true));
                 }
             }
             else
@@ -50,8 +50,8 @@ namespace CritterShell
                 throw new NotSupportedException(String.Format("Unhandled critter activity type '{0}'.", typeof(TActivity).FullName));
             }
 
-            columns.Add(Constant.ActivityColumn.N);
-            columns.Add(Constant.ActivityColumn.Survey);
+            columns.Add(new ColumnDefinition(Constant.ActivityColumn.N, true));
+            columns.Add(new ColumnDefinition(Constant.ActivityColumn.Survey));
 
             ActivityObservations<TActivity>.Columns = columns.AsReadOnly();
         }
@@ -92,10 +92,10 @@ namespace CritterShell
                 return;
             }
 
-            this.ActivityTotal.Survey = critterDetections.Detections[0].Survey;
+            this.ActivityTotal.Surveys.Add(critterDetections.Detections[0].Survey);
             foreach (TActivity group in this.ActivityGroupByName.Values)
             {
-                group.Survey = critterDetections.Detections[0].Survey;
+                group.Surveys.Add(critterDetections.Detections[0].Survey);
             }
 
             foreach (CritterDetection critterDetection in critterDetections.Detections)
@@ -105,7 +105,7 @@ namespace CritterShell
                 {
                     activity = new TActivity();
                     activity.Station = critterDetection.Station;
-                    activity.Survey = critterDetection.Survey;
+                    activity.Surveys.Add(critterDetection.Survey);
                     this.ActivityByStation.Add(critterDetection.Station, activity);
                 }
                 activity.Add(critterDetection);
@@ -123,7 +123,7 @@ namespace CritterShell
             }
         }
 
-        protected override bool TryRead(Func<List<string>> readLine, out List<string> importErrors)
+        protected override FileReadResult TryRead(Func<List<string>> readLine)
         {
             throw new NotImplementedException();
         }
@@ -164,9 +164,9 @@ namespace CritterShell
             using (TextWriter fileWriter = new StreamWriter(filePath, false))
             {
                 StringBuilder header = new StringBuilder();
-                foreach (string columnName in ActivityObservations<TActivity>.Columns)
+                foreach (ColumnDefinition column in ActivityObservations<TActivity>.Columns)
                 {
-                    header.Append(this.AddCsvValue(columnName));
+                    header.Append(this.AddCsvValue(column.Name));
                 }
                 fileWriter.WriteLine(header.ToString());
 
@@ -180,7 +180,7 @@ namespace CritterShell
                         row.Append(this.AddCsvValue(observations[index]));
                     }
                     row.Append(this.AddCsvValue(detectionCount));
-                    row.Append(this.AddCsvValue(record.Survey));
+                    row.Append(this.AddCsvValue(String.Join("|", record.Surveys)));
 
                     fileWriter.WriteLine(row.ToString());
                 });
@@ -204,10 +204,10 @@ namespace CritterShell
                         worksheet.Cells[row, ++column].Value = observations[observation];
                     }
                     worksheet.Cells[row, ++column].Value = detectionCount;
-                    worksheet.Cells[row, ++column].Value = record.Survey;
+                    worksheet.Cells[row, ++column].Value = record.Surveys;
                 });
 
-                // match column widths to content up
+                // match column widths to content
                 worksheet.Cells[1, 1, worksheet.Dimension.Rows, worksheet.Dimension.Columns].AutoFitColumns(Constant.Excel.MinimumColumnWidth, Constant.Excel.MaximumColumnWidth);
 
                 xlsxFile.Save();

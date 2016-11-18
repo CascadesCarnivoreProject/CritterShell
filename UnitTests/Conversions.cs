@@ -31,9 +31,10 @@ namespace CritterShell.UnitTests
             // get detections
             string csvFileName = TestConstant.File.CarnivoreImages;
             CritterImages critterImages = new CritterImages();
-            List<string> importErrors;
-            Assert.IsTrue(critterImages.TryRead(csvFileName, null, out importErrors));
-            Assert.IsTrue(importErrors.Count == 0);
+            FileReadResult readResult = critterImages.TryRead(csvFileName, null);
+            Assert.IsFalse(readResult.Failed);
+            Assert.IsTrue(readResult.Verbose.Count == 0);
+            Assert.IsTrue(readResult.Warnings.Count == 0);
 
             CritterDetections critterDetections = new CritterDetections(critterImages, Constant.DefaultDetectionMergeWindow, false);
             Assert.IsTrue(critterDetections.Detections.Count < 0.5 * critterImages.Images.Count);
@@ -50,14 +51,18 @@ namespace CritterShell.UnitTests
 
             // extract diel activity from detections
             CritterDetections detectionsForDielActivity = new CritterDetections();
-            Assert.IsTrue(detectionsForDielActivity.TryRead(detectionCsvFilePath, null, out importErrors));
+            readResult = detectionsForDielActivity.TryRead(detectionCsvFilePath, null);
+            Assert.IsFalse(readResult.Failed);
             Assert.IsTrue(detectionsForDielActivity.Detections.Count == critterDetections.Detections.Count);
-            Assert.IsTrue(importErrors.Count == 0);
+            Assert.IsTrue(readResult.Verbose.Count == 0);
+            Assert.IsTrue(readResult.Warnings.Count == 0);
 
             detectionsForDielActivity = new CritterDetections();
-            Assert.IsTrue(detectionsForDielActivity.TryRead(commonXlsxFilePath, TestConstant.File.SiteDetectionsWorksheet, out importErrors));
+            readResult = detectionsForDielActivity.TryRead(commonXlsxFilePath, TestConstant.File.SiteDetectionsWorksheet);
+            Assert.IsFalse(readResult.Failed);
             Assert.IsTrue(detectionsForDielActivity.Detections.Count == critterDetections.Detections.Count);
-            Assert.IsTrue(importErrors.Count == 0);
+            Assert.IsTrue(readResult.Verbose.Count == 0);
+            Assert.IsTrue(readResult.Warnings.Count == 0);
 
             TimeZoneInfo solarTimeForLocalTimeZone = TimeZoneInfo.GetSystemTimeZones().Where(timeZone => timeZone.BaseUtcOffset == TimeZoneInfo.Local.BaseUtcOffset && timeZone.SupportsDaylightSavingTime == false).First();
             foreach (CritterDetection detection in critterDetections.Detections)
@@ -80,14 +85,18 @@ namespace CritterShell.UnitTests
 
             // extract monthly activity from detections
             CritterDetections detectionsForMonthlyActivity = new CritterDetections();
-            Assert.IsTrue(detectionsForMonthlyActivity.TryRead(detectionCsvFilePath, null, out importErrors));
+            readResult = detectionsForMonthlyActivity.TryRead(detectionCsvFilePath, null);
+            Assert.IsFalse(readResult.Failed);
             Assert.IsTrue(detectionsForMonthlyActivity.Detections.Count == critterDetections.Detections.Count);
-            Assert.IsTrue(importErrors.Count == 0);
+            Assert.IsTrue(readResult.Verbose.Count == 0);
+            Assert.IsTrue(readResult.Warnings.Count == 0);
 
             detectionsForMonthlyActivity = new CritterDetections();
-            Assert.IsTrue(detectionsForMonthlyActivity.TryRead(commonXlsxFilePath, TestConstant.File.SiteDetectionsWorksheet, out importErrors));
+            readResult = detectionsForMonthlyActivity.TryRead(commonXlsxFilePath, TestConstant.File.SiteDetectionsWorksheet);
+            Assert.IsFalse(readResult.Failed);
             Assert.IsTrue(detectionsForMonthlyActivity.Detections.Count == critterDetections.Detections.Count);
-            Assert.IsTrue(importErrors.Count == 0);
+            Assert.IsTrue(readResult.Verbose.Count == 0);
+            Assert.IsTrue(readResult.Warnings.Count == 0);
 
             ActivityObservations<CritterMonthlyActivity> monthlyActivity = new ActivityObservations<CritterMonthlyActivity>(critterDetections, null);
             monthlyActivity.WriteTotal = false;

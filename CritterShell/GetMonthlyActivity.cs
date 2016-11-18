@@ -6,5 +6,9 @@ namespace CritterShell
     [Cmdlet(VerbsCommon.Get, "MonthlyActivity")]
     public class GetMonthlyActivity : ActivityCmdlet<CritterMonthlyActivity>
     {
+        public GetMonthlyActivity()
+        {
+            this.OutputWorksheet = "monthly activity";
+        }
     }
 }

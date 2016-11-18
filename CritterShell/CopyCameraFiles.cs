@@ -1,29 +1,32 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CritterShell
 {
     [Cmdlet(VerbsCommon.Copy, "CameraFiles")]
     public class CopyCameraFiles : CritterCmdlet
     {
-        [Parameter]
+        [Parameter(HelpMessage = "List of analysis folders to create in the parent of the folder indicated by -To.  Defaults to @(\"Critters\").")]
         public List<string> DefaultFolders { get; set; }
 
-        [Parameter]
+        [Parameter(HelpMessage = @"Path of folder to copy files from.  Defaults to D:\DCIM as that's the most likely drive letter and path for an SD card.")]
         public string From { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = "Path of folder to copy files to.")]
         public string To { get; set; }
 
-        [Parameter]
+        [Parameter(HelpMessage = "Copy only .jpg files.  Can be useful for shortening copy times by skipping .avi files from cameras operating in hybrid mode.")]
         public SwitchParameter ImagesOnly { get; set; }
 
         public CopyCameraFiles()
         {
-            this.DefaultFolders = new List<string>() { "Critters", "Redundants" };
+            this.DefaultFolders = new List<string>() { "Critters" };
             this.From = @"D:\DCIM";
         }
 
@@ -53,45 +56,63 @@ namespace CritterShell
                 searchPattern = "*" + Constant.File.JpgExtension;
             }
 
+            ParallelOptions parallelOptions = new ParallelOptions();
+            parallelOptions.MaxDegreeOfParallelism = 2;
+            Thread loggingThread = Thread.CurrentThread;
+            ConcurrentQueue<string> verbose = new ConcurrentQueue<string>();
             int filesProcessed = 0;
             int imagesCopied = 0;
             int videosCopied = 0;
-            foreach (string inputSubdirectoryPath in Directory.GetDirectories(this.From))
-            {
-                DirectoryInfo inputSubdirectory = new DirectoryInfo(inputSubdirectoryPath);
-                string outputSubdirectoryPath = Path.Combine(this.To, inputSubdirectory.Name);
-                if (Directory.Exists(outputSubdirectoryPath) == false)
+            Parallel.ForEach(Directory.GetDirectories(this.From), parallelOptions, (string inputSubdirectoryPath, ParallelLoopState loopState) =>
                 {
-                    Directory.CreateDirectory(outputSubdirectoryPath);
-                }
-
-                FileInfo[] inputFiles = inputSubdirectory.GetFiles(searchPattern);
-                double gigabytesToCopy = 1E-9 * inputFiles.Sum(image => image.Length);
-                this.WriteVerbose("Processing {0:0.00}GB in {1} files from {2}...", gigabytesToCopy, inputFiles.Length, inputSubdirectory.Name);
-                foreach (FileInfo inputFile in inputFiles)
-                {
-                    string outputFilePath = Path.Combine(outputSubdirectoryPath, inputFile.Name);
-                    if (File.Exists(outputFilePath) == false)
+                    DirectoryInfo inputSubdirectory = new DirectoryInfo(inputSubdirectoryPath);
+                    string outputSubdirectoryPath = Path.Combine(this.To, inputSubdirectory.Name);
+                    if (Directory.Exists(outputSubdirectoryPath) == false)
                     {
-                        File.Copy(inputFile.FullName, outputFilePath);
+                        Directory.CreateDirectory(outputSubdirectoryPath);
+                    }
 
-                        if (String.Equals(inputFile.Extension, Constant.File.JpgExtension, StringComparison.OrdinalIgnoreCase))
+                    FileInfo[] inputFiles = inputSubdirectory.GetFiles(searchPattern);
+                    double gigabytesToCopy = 1E-9 * inputFiles.Sum(image => image.Length);
+                    verbose.Enqueue(String.Format("Processing {0:0.00}GB in {1} files from {2}...", gigabytesToCopy, inputFiles.Length, inputSubdirectory.Name));
+                    if (Thread.CurrentThread.ManagedThreadId == loggingThread.ManagedThreadId)
+                    {
+                        string message;
+                        while (verbose.TryDequeue(out message))
                         {
-                            ++imagesCopied;
+                            this.WriteVerbose(message);
                         }
-                        else
+                    }
+
+                    foreach (FileInfo inputFile in inputFiles)
+                    {
+                        string outputFilePath = Path.Combine(outputSubdirectoryPath, inputFile.Name);
+                        if (File.Exists(outputFilePath) == false)
                         {
-                            ++videosCopied;
+                            File.Copy(inputFile.FullName, outputFilePath);
+
+                            if (String.Equals(inputFile.Extension, Constant.File.JpgExtension, StringComparison.OrdinalIgnoreCase))
+                            {
+                                ++imagesCopied;
+                            }
+                            else
+                            {
+                                ++videosCopied;
+                            }
+
+                            if (this.Stopping)
+                            {
+                                return;
+                            }
                         }
 
                         if (this.Stopping)
                         {
-                            return;
+                            loopState.Stop();   
                         }
                     }
-                }
-                filesProcessed += inputFiles.Length;
-            }
+                    filesProcessed += inputFiles.Length;
+                });
 
             this.WriteVerbose("{0} images and {1} videos copied, {2} files processed total.", imagesCopied, videosCopied, filesProcessed);
         }

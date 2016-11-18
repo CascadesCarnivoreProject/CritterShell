@@ -3,37 +3,35 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace CritterShell
 {
     internal class CritterImages : SpreadsheetReaderWriter
     {
-        private static readonly ReadOnlyCollection<string> Columns;
+        private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
         public List<CritterImage> Images { get; private set; }
 
         static CritterImages()
         {
-            CritterImages.Columns = new List<string>()
+            CritterImages.Columns = new List<ColumnDefinition>()
             {
-                Constant.ImageColumn.File,
-                Constant.ImageColumn.RelativePath,
-                Constant.ImageColumn.DateTime,
-                Constant.ImageColumn.UtcOffset,
-                Constant.ImageColumn.ImageQuality,
-                Constant.ImageColumn.DeleteFlag,
-                Constant.ImageColumn.Survey,
-                Constant.ImageColumn.Station,
-                Constant.ImageColumn.TriggerSource,
-                Constant.ImageColumn.Confidence,
-                Constant.ImageColumn.Identification,
-                Constant.ImageColumn.Age,
-                Constant.ImageColumn.GroupType,
-                Constant.ImageColumn.Activity,
-                Constant.ImageColumn.Pelage,
-                Constant.ImageColumn.Comments
+                new ColumnDefinition(Constant.ImageColumn.File, true),
+                new ColumnDefinition(Constant.ImageColumn.RelativePath, true),
+                new ColumnDefinition(Constant.ImageColumn.DateTime, true),
+                new ColumnDefinition(Constant.ImageColumn.UtcOffset, true),
+                new ColumnDefinition(Constant.ImageColumn.ImageQuality),
+                new ColumnDefinition(Constant.ImageColumn.DeleteFlag),
+                new ColumnDefinition(Constant.ImageColumn.Survey),
+                new ColumnDefinition(Constant.ImageColumn.Station, true),
+                new ColumnDefinition(Constant.ImageColumn.TriggerSource),
+                new ColumnDefinition(Constant.ImageColumn.Confidence),
+                new ColumnDefinition(Constant.ImageColumn.Identification, true),
+                new ColumnDefinition(Constant.ImageColumn.Age),
+                new ColumnDefinition(Constant.ImageColumn.GroupType),
+                new ColumnDefinition(Constant.ImageColumn.Activity),
+                new ColumnDefinition(Constant.ImageColumn.Pelage),
+                new ColumnDefinition(Constant.ImageColumn.Comments)
             }.AsReadOnly();
         }
 
@@ -42,13 +40,14 @@ namespace CritterShell
             this.Images = new List<CritterImage>();
         }
 
-        protected override bool TryRead(Func<List<string>> readLine, out List<string> importErrors)
+        protected override FileReadResult TryRead(Func<List<string>> readLine)
         {
             // validate header row against expectations
             List<string> dataLabelsFromHeader = readLine.Invoke();
-            if (this.VerifyHeader(dataLabelsFromHeader, CritterImages.Columns, out importErrors) == false)
+            FileReadResult readResult = this.VerifyHeader(dataLabelsFromHeader, CritterImages.Columns);
+            if (readResult.Failed)
             {
-                return false;
+                return readResult;
             }
 
             // read data
@@ -56,18 +55,19 @@ namespace CritterShell
             int relativePathIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.RelativePath);
             int dateTimeIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.DateTime);
             int utcOffsetIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.UtcOffset);
-            int imageQualityIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.ImageQuality);
-            int deleteFlagIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.DeleteFlag);
-            int surveyIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Survey);
             int stationIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Station);
-            int triggerSourceIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.TriggerSource);
-            int confidenceIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Confidence);
             int identificationIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Identification);
-            int ageIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Age);
-            int groupTypeIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.GroupType);
+
             int activityIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Activity);
-            int pelageIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Pelage);
+            int ageIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Age);
             int commentsIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Comments);
+            int confidenceIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Confidence);
+            int deleteFlagIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.DeleteFlag);
+            int groupTypeIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.GroupType);
+            int imageQualityIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.ImageQuality);
+            int pelageIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Pelage);
+            int triggerSourceIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.TriggerSource);
+            int surveyIndex = dataLabelsFromHeader.IndexOf(Constant.ImageColumn.Survey);
             for (List<string> row = readLine.Invoke(); row != null; row = readLine.Invoke())
             {
                 if (row.Count == CritterImages.Columns.Count - 1)
@@ -83,26 +83,60 @@ namespace CritterShell
                 }
 
                 CritterImage image = new CritterImage();
+                // required columns
                 image.File = row[fileIndex];
                 image.RelativePath = row[relativePathIndex];
                 image.DateTime = this.ParseUtcDateTime(row[dateTimeIndex]);
                 image.UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]);
-                image.ImageQuality = this.ParseEnum<ImageQuality>(row[imageQualityIndex]);
-                image.DeleteFlag = this.ParseBoolean(row[deleteFlagIndex]);
-                image.Survey = row[surveyIndex];
                 image.Station = row[stationIndex];
-                image.TriggerSource = this.ParseEnum<TriggerSource>(row[triggerSourceIndex]);
-                image.Confidence = this.ParseEnum<Confidence>(row[confidenceIndex]);
                 image.Identification = row[identificationIndex];
-                image.Age = this.ParseEnum<Age>(row[ageIndex]);
-                image.GroupType = this.ParseEnum<GroupType>(row[groupTypeIndex]);
-                image.Activity = this.ParseEnum<Activity>(row[activityIndex]);
-                image.Pelage = row[pelageIndex];
-                image.Comments = row[commentsIndex];
+
+                // optional columns
+                if (imageQualityIndex != -1)
+                {
+                    image.ImageQuality = this.ParseEnum<ImageQuality>(row[imageQualityIndex]);
+                }
+                if (deleteFlagIndex != -1)
+                {
+                    image.DeleteFlag = this.ParseBoolean(row[deleteFlagIndex]);
+                }
+                if (triggerSourceIndex != -1)
+                {
+                    image.TriggerSource = this.ParseEnum<TriggerSource>(row[triggerSourceIndex]);
+                }
+                if (confidenceIndex != -1)
+                {
+                    image.Confidence = this.ParseEnum<Confidence>(row[confidenceIndex]);
+                }
+                if (ageIndex != -1)
+                {
+                    image.Age = this.ParseEnum<Age>(row[ageIndex]);
+                }
+                if (groupTypeIndex != -1)
+                {
+                    image.GroupType = this.ParseEnum<GroupType>(row[groupTypeIndex]);
+                }
+                if (activityIndex != -1)
+                {
+                    image.Activity = this.ParseEnum<Activity>(row[activityIndex]);
+                }
+                if (commentsIndex != -1)
+                {
+                    image.Comments = row[commentsIndex];
+                }
+                if (pelageIndex != -1)
+                {
+                    image.Pelage = row[pelageIndex];
+                }
+                if (surveyIndex != -1)
+                {
+                    image.Survey = row[surveyIndex];
+                }
+
                 this.Images.Add(image);
             }
 
-            return true;
+            return readResult;
         }
 
         public override void WriteCsv(string filePath)
