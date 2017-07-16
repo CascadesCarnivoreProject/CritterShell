@@ -1,4 +1,4 @@
-﻿namespace CritterShell
+﻿namespace CritterShell.Critters
 {
     internal enum CritterSignType
     {

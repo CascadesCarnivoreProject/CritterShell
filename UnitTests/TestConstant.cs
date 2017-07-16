@@ -4,6 +4,8 @@
     {
         public static class File
         {
+            public const string CalochortusMacrocarpus = "CAMA5.gpx";
+
             public const string CarnivoreImages = "CarnivoreImages.csv";
             public const string CarnivoreSign = "CarnivoreSign.gpx";
 

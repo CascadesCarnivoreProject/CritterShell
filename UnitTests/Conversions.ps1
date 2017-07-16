@@ -1,11 +1,12 @@
 # cd ..\CritterShell\UnitTests\bin\Debug
 Import-Module -Name ".\CritterShell.dll";
 
+# critters
 $images = ".\CarnivoreImages.csv";
 $sign = ".\CarnivoreSign.gpx";
 
 # csv flow
-$signs = Convert-Gpx -GpxFile $sign -OutputFile ".\PowerShell sign.csv";
+$signs = Convert-Gpx -DataType Critters -GpxFile $sign -OutputFile ".\PowerShell sign.csv";
 
 $detectionsByStation = ".\PowerShell detections by station.csv";
 $stationDetections = Get-Detections -ImageFile $images -OutputFile $detectionsByStation;
@@ -18,7 +19,7 @@ $monthlyActivity = Get-MonthlyActivity -DetectionFile $detectionsByStation -Grou
 
 # xlsx flow
 $xlsx = ".\PowerShell.xlsx";
-$signs = Convert-Gpx -GpxFile $sign -OutputFile $xlsx;
+$signs = Convert-Gpx -DataType Critters -GpxFile $sign -OutputFile $xlsx -WorksheetName "critter sign";
 
 $stationWorksheet = "station detections";
 $stationDetections = Get-Detections -ImageFile $images -OutputFile $xlsx -OutputWorksheet $stationWorksheet;
@@ -27,3 +28,8 @@ $siteDetections = Get-Detections -ImageFile $images -OutputFile $xlsx -OutputWor
 
 $dielActivity = Get-DielActivity -DetectionFile $xlsx -DetectionWorksheet $stationWorksheet -Groups $groups -OutputFile $xlsx;
 $monthlyActivity = Get-MonthlyActivity -DetectionFile $xlsx -DetectionWorksheet $siteWorkSheet -Groups $groups -OutputFile $xlsx;
+
+# default waypoint conversion
+$gpx = ".\CAMA5.gpx";
+$waypoints = Convert-Gpx -GpxFile $gpx -OutputFile ".\PowerShell CAMA5.csv";
+$waypoints = Convert-Gpx -GpxFile $gpx -OutputFile ".\PowerShell CAMA5.xlsx";

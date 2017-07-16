@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CritterShell.Critters
+namespace CritterShell
 {
     public class FileReadResult
     {

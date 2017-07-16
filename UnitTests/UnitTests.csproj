@@ -80,6 +80,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CAMA5.gpx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Conversions.ps1" />
   </ItemGroup>
   <Choose>

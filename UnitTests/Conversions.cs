@@ -12,7 +12,7 @@ namespace CritterShell.UnitTests
     public class Conversions
     {
         [TestMethod]
-        public void ConvertGpx()
+        public void ConvertCritterGpx()
         {
             string gpxFileName = TestConstant.File.CarnivoreSign;
             GpxFile gpxFile = new GpxFile(gpxFileName);
@@ -23,6 +23,20 @@ namespace CritterShell.UnitTests
 
             string xlsxFilePath = Path.Combine(Path.GetDirectoryName(gpxFileName), Path.GetFileNameWithoutExtension(gpxFileName) + Constant.Excel.Extension);
             critterSign.WriteXlsx(xlsxFilePath, "critter sign");
+        }
+
+        [TestMethod]
+        public void ConvertWaypoints()
+        {
+            string gpxFileName = TestConstant.File.CalochortusMacrocarpus;
+            GpxFile gpxFile = new GpxFile(gpxFileName);
+            GpxSpreadsheet spreadsheet = new GpxSpreadsheet(gpxFile);
+
+            string csvFilePath = Path.Combine(Path.GetDirectoryName(gpxFileName), Path.GetFileNameWithoutExtension(gpxFileName) + Constant.Csv.Extension);
+            spreadsheet.WriteCsv(csvFilePath);
+
+            string xlsxFilePath = Path.Combine(Path.GetDirectoryName(gpxFileName), Path.GetFileNameWithoutExtension(gpxFileName) + Constant.Excel.Extension);
+            spreadsheet.WriteXlsx(xlsxFilePath, "waypoints");
         }
 
         [TestMethod]

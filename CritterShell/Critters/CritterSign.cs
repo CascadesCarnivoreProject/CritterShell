@@ -5,6 +5,7 @@ namespace CritterShell.Critters
 {
     internal class CritterSign : CritterWithMergeableProperties
     {
+        public string Description { get; private set; }
         public double Elevation { get; private set; }
         public string Identification { get; private set; }
         public double Latitude { get; private set; }
@@ -15,6 +16,7 @@ namespace CritterShell.Critters
 
         public CritterSign(Waypoint waypoint)
         {
+            this.Description = waypoint.Description;
             this.Elevation = waypoint.Elevation;
             if (waypoint.Extensions != null)
             {

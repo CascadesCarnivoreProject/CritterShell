@@ -74,6 +74,19 @@ namespace CritterShell
             return worksheet;
         }
 
+        protected object MaybeConvertToIntegerForExcel(string valueAsString)
+        {
+            // as of 2017, up to date installs of Excel 2016 raise green marks on cells containing numbers formatted as strings
+            // Attempt automatic conversion to save the user having to manually convert affected cells to numbers.  This has the side effect of removing any
+            // leading zeros but Excel does that as well.
+            int valueAsInteger;
+            if (Int32.TryParse(valueAsString, out valueAsInteger))
+            {
+                return valueAsInteger;
+            }
+            return valueAsString;
+        }
+
         protected bool ParseBoolean(string value)
         {
             return Boolean.Parse(value);

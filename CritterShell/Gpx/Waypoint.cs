@@ -1,10 +1,13 @@
-﻿using System;
+﻿using CritterShell.Critters;
+using System;
 using System.Xml;
 
 namespace CritterShell.Gpx
 {
     internal class Waypoint : XmlSerializable
     {
+        public string Comment { get; private set; }
+        public string Description { get; private set; }
         public double Elevation { get; private set; }
         public Extensions Extensions { get; private set; }
         public double Latitude { get; private set; }
@@ -53,7 +56,15 @@ namespace CritterShell.Gpx
 
         protected override void OnStartElement(XmlReader reader)
         {
-            if (reader.IsStartElement(Constant.Gpx.Elevation, Constant.Gpx.Namespace))
+            if (reader.IsStartElement(Constant.Gpx.Comment, Constant.Gpx.Namespace))
+            {
+                this.Comment = reader.ReadElementContentAsString();
+            }
+            else if (reader.IsStartElement(Constant.Gpx.Description, Constant.Gpx.Namespace))
+            {
+                this.Description = reader.ReadElementContentAsString();
+            }
+            else if (reader.IsStartElement(Constant.Gpx.Elevation, Constant.Gpx.Namespace))
             {
                 this.Elevation = reader.ReadElementContentAsDouble();
             }

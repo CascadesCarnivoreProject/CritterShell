@@ -1,5 +1,4 @@
-﻿using CritterShell.Critters;
-using CritterShell.Gpx;
+﻿using CritterShell.Gpx;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 
-namespace CritterShell
+namespace CritterShell.Critters
 {
     internal class CritterSigns : SpreadsheetReaderWriter
     {
@@ -19,13 +18,14 @@ namespace CritterShell
         {
             CritterSigns.Columns = new List<ColumnDefinition>()
             {
-                new ColumnDefinition(Constant.CritterSignColumn.Name, true),
-                new ColumnDefinition(Constant.CritterSignColumn.Latitude, true),
-                new ColumnDefinition(Constant.CritterSignColumn.Longitude, true),
-                new ColumnDefinition(Constant.CritterSignColumn.Elevation, true),
-                new ColumnDefinition(Constant.CritterSignColumn.Time, true),
+                new ColumnDefinition(Constant.GpxColumn.Name, true),
+                new ColumnDefinition(Constant.GpxColumn.Latitude, true),
+                new ColumnDefinition(Constant.GpxColumn.Longitude, true),
+                new ColumnDefinition(Constant.GpxColumn.Elevation, true),
+                new ColumnDefinition(Constant.GpxColumn.Time, true),
                 new ColumnDefinition(Constant.CritterSignColumn.Identification, true),
-                new ColumnDefinition(Constant.CritterSignColumn.Type, true)
+                new ColumnDefinition(Constant.CritterSignColumn.Type, true),
+                new ColumnDefinition(Constant.GpxColumn.Description, true)
             }.AsReadOnly();
         }
 
@@ -66,6 +66,7 @@ namespace CritterShell
                     row.Append(this.AddCsvValue(sign.Time));
                     row.Append(this.AddCsvValue(sign.Identification));
                     row.Append(this.AddCsvValue(sign.Type.ToString().ToLowerInvariant()));
+                    row.Append(this.AddCsvValue(sign.Description));
                     fileWriter.WriteLine(row.ToString());
                 }
             }
@@ -80,13 +81,14 @@ namespace CritterShell
                 {
                     CritterSign sign = this.Signs[index];
                     int row = index + 2;
-                    worksheet.Cells[row, 1].Value = sign.Name;
+                    worksheet.Cells[row, 1].Value = this.MaybeConvertToIntegerForExcel(sign.Name);
                     worksheet.Cells[row, 2].Value = sign.Latitude;
                     worksheet.Cells[row, 3].Value = sign.Longitude;
                     worksheet.Cells[row, 4].Value = sign.Elevation;
                     worksheet.Cells[row, 5].Value = sign.Time;
                     worksheet.Cells[row, 6].Value = sign.Identification;
                     worksheet.Cells[row, 7].Value = sign.Type.ToString().ToLowerInvariant();
+                    worksheet.Cells[row, 8].Value = this.MaybeConvertToIntegerForExcel(sign.Description);
                 }
 
                 worksheet.Cells[1, 1, worksheet.Dimension.Rows, worksheet.Dimension.Columns].AutoFitColumns(Constant.Excel.MinimumColumnWidth, Constant.Excel.MaximumColumnWidth);

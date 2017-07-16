@@ -16,13 +16,8 @@ namespace CritterShell
 
         public static class CritterSignColumn
         {
-            public const string Elevation = "Elevation";
             public const string Identification = "Identification";
-            public const string Latitude = "Latitude";
-            public const string Longitude = "Longitude";
-            public const string Name = "Name";
             public const string SecondIdentification = "SecondIdentification";
-            public const string Time = "Time";
             public const string Type = "Type";
         }
 
@@ -91,6 +86,8 @@ namespace CritterShell
         public static class Gpx
         {
             public const string Bounds = "bounds";
+            public const string Comment = "cmt";
+            public const string Description = "desc";
             public const string Creator = "creator";
             public const string Elevation = "ele";
             public const string Extensions = "extensions";
@@ -112,6 +109,17 @@ namespace CritterShell
             public const string Type = "type";
             public const string Version = "version";
             public const string Waypoint = "wpt";
+        }
+
+        public static class GpxColumn
+        {
+            public const string Comment = "Comment";
+            public const string Description = "Description";
+            public const string Elevation = "Elevation";
+            public const string Latitude = "Latitude";
+            public const string Longitude = "Longitude";
+            public const string Name = "Name";
+            public const string Time = "Time";
         }
 
         public static class ImageColumn
