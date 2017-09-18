@@ -10,7 +10,7 @@ namespace CritterShell
         {
             public const string Identification = "Identification";
             public const string N = "N";
-            public const string Station = "Station";
+            public const string StationName = "Station";
             public const string Survey = "Survey";
         }
 
@@ -49,6 +49,7 @@ namespace CritterShell
         public static class Excel
         {
             public const string DefaultDetectionsWorksheetName = "detections";
+            public const string DefaultStationsWorksheetName = "stations";
             public const string Extension = ".xlsx";
             public const double MinimumColumnWidth = 5.0;
             public const double MaximumColumnWidth = 40.0;
@@ -113,6 +114,7 @@ namespace CritterShell
 
         public static class GpxColumn
         {
+            public const string Categories = "Categories";
             public const string Comment = "Comment";
             public const string Description = "Description";
             public const string Elevation = "Elevation";
@@ -142,6 +144,14 @@ namespace CritterShell
             public const string UtcOffset = "UtcOffset";
         }
 
+        public static class StationColumn
+        {
+            public const string DateRemoved = "date removed";
+            public const string DateSet = "date set";
+            public const string ID = "station ID";
+            public const string Name = "name";
+        }
+
         public static class WaypointSignType
         {
             public const char ForageSite = 'F';
@@ -154,6 +164,7 @@ namespace CritterShell
 
         public static class Time
         {
+            public const string DateFormat = "yyyy-MM-dd";
             public const string HourOfDayFormatWithoutSign = "hh\\:mm";
             public const int HoursInDay = 24;
             public const int MonthsInYear = 12;

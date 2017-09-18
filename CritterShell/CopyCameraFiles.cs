@@ -56,8 +56,10 @@ namespace CritterShell
                 searchPattern = "*" + Constant.File.JpgExtension;
             }
 
-            ParallelOptions parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = 2;
+            ParallelOptions parallelOptions = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 2
+            };
             Thread loggingThread = Thread.CurrentThread;
             ConcurrentQueue<string> verbose = new ConcurrentQueue<string>();
             int filesProcessed = 0;
@@ -77,8 +79,7 @@ namespace CritterShell
                     verbose.Enqueue(String.Format("Processing {0:0.00}GB in {1} files from {2}...", gigabytesToCopy, inputFiles.Length, inputSubdirectory.Name));
                     if (Thread.CurrentThread.ManagedThreadId == loggingThread.ManagedThreadId)
                     {
-                        string message;
-                        while (verbose.TryDequeue(out message))
+                        while (verbose.TryDequeue(out string message))
                         {
                             this.WriteVerbose(message);
                         }

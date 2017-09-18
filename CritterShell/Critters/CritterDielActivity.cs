@@ -7,8 +7,7 @@ namespace CritterShell.Critters
     {
         protected override void AddCore(CritterDetection detection)
         {
-            List<int> detections;
-            if (this.DetectionsByIdentification.TryGetValue(detection.Identification, out detections) == false)
+            if (this.DetectionsByIdentification.TryGetValue(detection.Identification, out List<int> detections) == false)
             {
                 detections = new List<int>(Constant.Time.HoursInDay);
                 for (int hour = 0; hour < Constant.Time.HoursInDay; ++hour)

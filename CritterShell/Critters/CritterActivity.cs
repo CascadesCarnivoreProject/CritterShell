@@ -6,7 +6,7 @@ namespace CritterShell.Critters
     public abstract class CritterActivity
     {
         public Dictionary<string, List<int>> DetectionsByIdentification { get; private set; }
-        public string Station { get; set; }
+        public Station Station { get; set; }
         public List<string> Surveys { get; set; }
 
         protected CritterActivity()
@@ -27,16 +27,21 @@ namespace CritterShell.Critters
 
         protected abstract void AddCore(CritterDetection detection);
 
-        public List<double> GetProbability(string identification, out int totalDetections)
+        public virtual List<double> GetActivity(string identification, out double totalDetections)
         {
-            List<int> detectionCounts = this.DetectionsByIdentification[identification];
-            List<double> probability = new List<double>(this.DetectionsByIdentification.Count);
-            totalDetections = detectionCounts.Sum();
-            foreach (int detectionCount in detectionCounts)
+            List<int> detections = this.DetectionsByIdentification[identification];
+            totalDetections = detections.Sum();
+            return detections.Select(value => (double)value).ToList();
+        }
+
+        public virtual List<double> GetProbability(string identification, out double totalDetections)
+        {
+            List<double> probabilities = this.GetActivity(identification, out totalDetections);
+            for (int index = 0; index < probabilities.Count; ++index)
             {
-                probability.Add((double)detectionCount / (double)totalDetections);
+                probabilities[index] /= totalDetections;
             }
-            return probability;
+            return probabilities;
         }
     }
 }

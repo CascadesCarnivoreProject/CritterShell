@@ -57,7 +57,8 @@ namespace CritterShell.UnitTests
             string commonXlsxFilePath = Path.Combine(Path.GetDirectoryName(csvFileName), Path.GetFileNameWithoutExtension(csvFileName) + Constant.Excel.Extension);
             critterDetections.WriteXlsx(commonXlsxFilePath, TestConstant.File.StationDetectionsWorksheet);
 
-            critterDetections = new CritterDetections(critterImages, TimeSpan.FromDays(30), true);
+            bool bySite = true;
+            critterDetections = new CritterDetections(critterImages, TimeSpan.FromDays(30), bySite);
             Assert.IsTrue(critterDetections.Detections.Count < 0.1 * critterImages.Images.Count);
             detectionCsvFilePath = Path.Combine(Path.GetDirectoryName(csvFileName), Path.GetFileNameWithoutExtension(csvFileName) + "-DetectionsBySite" + Constant.Csv.Extension);
             critterDetections.WriteCsv(detectionCsvFilePath);
@@ -88,11 +89,20 @@ namespace CritterShell.UnitTests
                 }
             }
 
-            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>();
-            groups.Add("DS02 group", new List<string>() { "DS02" });
-            ActivityObservations<CritterDielActivity> dielActivity = new ActivityObservations<CritterDielActivity>(critterDetections, groups);
-            dielActivity.WriteTotal = true;
-            dielActivity.WriteProbabilities = true;
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>() { { "DS02 group", new List<string>() { "DS02" } } };
+
+            StationData stations = new StationData();
+            FileReadResult stationReadResult = stations.TryRead(TestConstant.File.StationData, Constant.Excel.DefaultStationsWorksheetName);
+            Assert.IsFalse(stationReadResult.Failed);
+            Assert.IsTrue(stationReadResult.Verbose.Count == 0);
+            Assert.IsTrue(stationReadResult.Warnings.Count == 0);
+
+            StationData sites = stations.GetSites();
+
+            ActivityObservations<CritterDielActivity> dielActivity = new ActivityObservations<CritterDielActivity>(critterDetections, sites, groups)
+            {
+                WriteProbabilities = true
+            };
             string dielActivityCsvFilePath = Path.Combine(Path.GetDirectoryName(csvFileName), Path.GetFileNameWithoutExtension(csvFileName) + "-DielActivityBySite" + Path.GetExtension(csvFileName));
             dielActivity.WriteCsv(dielActivityCsvFilePath);
             dielActivity.WriteXlsx(commonXlsxFilePath, "station activity");
@@ -112,9 +122,10 @@ namespace CritterShell.UnitTests
             Assert.IsTrue(readResult.Verbose.Count == 0);
             Assert.IsTrue(readResult.Warnings.Count == 0);
 
-            ActivityObservations<CritterMonthlyActivity> monthlyActivity = new ActivityObservations<CritterMonthlyActivity>(critterDetections, null);
-            monthlyActivity.WriteTotal = false;
-            monthlyActivity.WriteProbabilities = false;
+            ActivityObservations<CritterMonthlyActivity> monthlyActivity = new ActivityObservations<CritterMonthlyActivity>(critterDetections, sites, null)
+            {
+                WriteProbabilities = false
+            };
             string monthlyActivityCsvFilePath = Path.Combine(Path.GetDirectoryName(csvFileName), Path.GetFileNameWithoutExtension(csvFileName) + "-MonthlyActivityBySite" + Path.GetExtension(csvFileName));
             monthlyActivity.WriteCsv(monthlyActivityCsvFilePath);
             monthlyActivity.WriteXlsx(commonXlsxFilePath, "site activity");

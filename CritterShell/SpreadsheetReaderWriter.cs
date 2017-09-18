@@ -79,8 +79,7 @@ namespace CritterShell
             // as of 2017, up to date installs of Excel 2016 raise green marks on cells containing numbers formatted as strings
             // Attempt automatic conversion to save the user having to manually convert affected cells to numbers.  This has the side effect of removing any
             // leading zeros but Excel does that as well.
-            int valueAsInteger;
-            if (Int32.TryParse(valueAsString, out valueAsInteger))
+            if (Int32.TryParse(valueAsString, out int valueAsInteger))
             {
                 return valueAsInteger;
             }
@@ -199,9 +198,8 @@ namespace CritterShell
             for (int column = 1; column <= worksheet.Dimension.Columns; ++column)
             {
                 ExcelRange cell = worksheet.Cells[row, column];
-                if (cell.Value is bool)
+                if (cell.Value is bool cellValue)
                 {
-                    bool cellValue = (bool)cell.Value;
                     rowContent.Add(cellValue ? Boolean.TrueString : Boolean.FalseString);
                 }
                 else
@@ -259,8 +257,10 @@ namespace CritterShell
             }
             catch (IOException ioException)
             {
-                FileReadResult result = new FileReadResult();
-                result.Failed = true;
+                FileReadResult result = new FileReadResult()
+                {
+                    Failed = true
+                };
                 result.Warnings.Add(ioException.ToString());
                 return result;
             }

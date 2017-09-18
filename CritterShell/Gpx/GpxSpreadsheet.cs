@@ -24,7 +24,8 @@ namespace CritterShell.Gpx
                 new ColumnDefinition(Constant.GpxColumn.Elevation, true),
                 new ColumnDefinition(Constant.GpxColumn.Time, true),
                 new ColumnDefinition(Constant.GpxColumn.Comment, true),
-                new ColumnDefinition(Constant.GpxColumn.Description, true)
+                new ColumnDefinition(Constant.GpxColumn.Description, true),
+                new ColumnDefinition(Constant.GpxColumn.Categories, true)
             }.AsReadOnly();
         }
 
@@ -77,9 +78,14 @@ namespace CritterShell.Gpx
                     worksheet.Cells[row, 2].Value = waypoint.Latitude;
                     worksheet.Cells[row, 3].Value = waypoint.Longitude;
                     worksheet.Cells[row, 4].Value = waypoint.Elevation;
-                    worksheet.Cells[row, 5].Value = waypoint.Time;
+                    worksheet.Cells[row, 5].Value = waypoint.Time.ToString(Constant.Time.UtcDateTimeFormat);
                     worksheet.Cells[row, 6].Value = this.MaybeConvertToIntegerForExcel(waypoint.Comment);
                     worksheet.Cells[row, 7].Value = this.MaybeConvertToIntegerForExcel(waypoint.Description);
+
+                    if (waypoint.Extensions != null)
+                    {
+                        worksheet.Cells[row, 8].Value = String.Join("|", waypoint.Extensions.Categories);
+                    }
                 }
 
                 worksheet.Cells[1, 1, worksheet.Dimension.Rows, worksheet.Dimension.Columns].AutoFitColumns(Constant.Excel.MinimumColumnWidth, Constant.Excel.MaximumColumnWidth);

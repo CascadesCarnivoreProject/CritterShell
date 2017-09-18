@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace CritterShell
 {
-    internal class CritterImages : SpreadsheetReaderWriter
+    public class CritterImages : SpreadsheetReaderWriter
     {
         private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
@@ -82,14 +82,16 @@ namespace CritterShell
                     Debug.Assert(false, String.Format("Expected {0} fields in line {1} but found {2}.", CritterImages.Columns.Count, String.Join(",", row), row.Count));
                 }
 
-                CritterImage image = new CritterImage();
-                // required columns
-                image.File = row[fileIndex];
-                image.RelativePath = row[relativePathIndex];
-                image.DateTime = this.ParseUtcDateTime(row[dateTimeIndex]);
-                image.UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]);
-                image.Station = row[stationIndex];
-                image.Identification = row[identificationIndex];
+                CritterImage image = new CritterImage()
+                {
+                    // required columns
+                    File = row[fileIndex],
+                    RelativePath = row[relativePathIndex],
+                    DateTime = this.ParseUtcDateTime(row[dateTimeIndex]),
+                    UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]),
+                    Station = row[stationIndex],
+                    Identification = row[identificationIndex]
+                };
 
                 // optional columns
                 if (imageQualityIndex != -1)

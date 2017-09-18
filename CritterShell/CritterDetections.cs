@@ -10,7 +10,7 @@ using System.Text;
 
 namespace CritterShell
 {
-    internal class CritterDetections : SpreadsheetReaderWriter
+    public class CritterDetections : SpreadsheetReaderWriter
     {
         private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
@@ -131,15 +131,17 @@ namespace CritterShell
                     Debug.Assert(false, String.Format("Expected {0} fields in line {1} but found {2}.", CritterDetections.Columns.Count, String.Join(",", row), row.Count));
                 }
 
-                CritterDetection detection = new CritterDetection();
-                // required columns
-                detection.File = row[fileIndex];
-                detection.RelativePath = row[relativePathIndex];
-                detection.StartDateTime = this.ParseUtcDateTime(row[startDateTimeIndex]);
-                detection.EndDateTime = this.ParseUtcDateTime(row[endDateTimeIndex]);
-                detection.UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]);
-                detection.Station = row[stationIndex];
-                detection.Identification = row[identificationIndex];
+                CritterDetection detection = new CritterDetection()
+                {
+                    // required columns
+                    File = row[fileIndex],
+                    RelativePath = row[relativePathIndex],
+                    StartDateTime = this.ParseUtcDateTime(row[startDateTimeIndex]),
+                    EndDateTime = this.ParseUtcDateTime(row[endDateTimeIndex]),
+                    UtcOffset = this.ParseUtcOffset(row[utcOffsetIndex]),
+                    Station = row[stationIndex],
+                    Identification = row[identificationIndex]
+                };
 
                 // optional columns
                 if (activityIndex != -1)

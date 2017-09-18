@@ -60,6 +60,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LowLevel.cs" />
     <Compile Include="ReadWrite.cs" />
     <Compile Include="TestConstant.cs" />
     <Compile Include="Conversions.cs" />
@@ -81,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CAMA5.gpx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StationData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Conversions.ps1" />

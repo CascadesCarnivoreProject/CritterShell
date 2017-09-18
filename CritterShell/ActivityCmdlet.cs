@@ -24,20 +24,40 @@ namespace CritterShell
         [Parameter(HelpMessage = "By default the output time zone is the same as that of the input detections.  Specify this parameter if, for example, the detections use daylight savings but the output needs to be in standard time to, for example, accurately indicate diel activity.")]
         public TimeZoneInfo TimeZone { get; set; }
 
-        [Parameter(HelpMessage = "Include a group containing all stations in the output.")]
-        public SwitchParameter Total { get; set; }
-
         public ActivityCmdlet()
         {
             this.DetectionWorksheet = Constant.Excel.DefaultDetectionsWorksheetName;
             // this.OutputWorksheet is defaulted in derived classes
 
             // attempt to select the appropriate solar time for the current time zone
-            // this will be wrong for some time zones, such as Alaska, with UTC offsets which don't match their geography
-            // however, correcting this via a lookup table of overrides is difficult as some time zones span multiple solar time zones
-            // better defaults can be added as needed, workaround is simply to specify -SolarTimeZone
+            // This will be wrong for some time zones, such as Alaska, with UTC offsets which don't match their geography.
+            // However, correcting this via a lookup table of overrides is difficult as some time zones span multiple solar time zones.
+            // Better defaults can be added as needed, workaround is simply to specify -SolarTimeZone.
             TimeZoneInfo solarTimeForLocalTimeZone = TimeZoneInfo.GetSystemTimeZones().Where(timeZone => timeZone.BaseUtcOffset == TimeZoneInfo.Local.BaseUtcOffset && timeZone.SupportsDaylightSavingTime == false).First();
             this.TimeZone = solarTimeForLocalTimeZone;
+        }
+
+        protected virtual bool TryLoadStations(CritterDetections critterDetections, out StationData stations)
+        {
+            stations = new StationData();
+            foreach (string stationID in critterDetections.Detections.Select(detection => detection.Station).Distinct())
+            {
+                stations.Stations.Add(new Station(stationID, stationID));
+            }
+            return true;
+        }
+
+        protected bool LogRead(FileReadResult detectionReadResult)
+        {
+            foreach (string message in detectionReadResult.Verbose)
+            {
+                this.WriteVerbose(message);
+            }
+            foreach (string warning in detectionReadResult.Warnings)
+            {
+                this.WriteWarning(warning);
+            }
+            return detectionReadResult.Failed || detectionReadResult.Warnings.Count > Constant.File.MaximumImportWarnings;
         }
 
         protected override void ProcessRecord()
@@ -48,18 +68,10 @@ namespace CritterShell
 
             // load detections
             CritterDetections critterDetections = new CritterDetections();
-            FileReadResult readResult = critterDetections.TryRead(this.DetectionFile, this.DetectionWorksheet);
-            foreach (string message in readResult.Verbose)
+            FileReadResult detectionReadResult = critterDetections.TryRead(this.DetectionFile, this.DetectionWorksheet);
+            if (this.LogRead(detectionReadResult))
             {
-                this.WriteVerbose(message);
-            }
-            foreach (string warning in readResult.Warnings)
-            {
-                this.WriteWarning(warning);
-            }
-            if (readResult.Failed || readResult.Warnings.Count > Constant.File.MaximumImportWarnings)
-            {
-                this.WriteError(new ErrorRecord(new FileLoadException("Too many warnings encountered loading detection file.", this.DetectionFile), "DetectionLoading", ErrorCategory.InvalidData, this.DetectionFile));
+                this.WriteError(new ErrorRecord(new FileLoadException("Load of detection file failed or too many warnings were encountered.", this.DetectionFile), "DetectionLoading", ErrorCategory.InvalidData, this.DetectionFile));
                 return;
             }
 
@@ -72,11 +84,20 @@ namespace CritterShell
                     detection.SetStartAndEndDateTimes(startDateTime.SetOffset(this.TimeZone.BaseUtcOffset));
                 }
             }
-            
+
+            // load stations
+            // Default implementation of TryLoadStations() always returns true, so no error logging is done here.  Overrides of
+            // TryLoadStations() therefore should perform their own logging.
+            if (this.TryLoadStations(critterDetections, out StationData stations) == false)
+            {
+                return;
+            }
+
             // collect activity
-            ActivityObservations<TActivity> activity = new ActivityObservations<TActivity>(critterDetections, this.Groups);
-            activity.WriteProbabilities = this.Probabilities;
-            activity.WriteTotal = this.Total;
+            ActivityObservations<TActivity> activity = new ActivityObservations<TActivity>(critterDetections, stations, this.Groups)
+            {
+                WriteProbabilities = this.Probabilities
+            };
             this.WriteOutput(activity);
 
             this.WriteObject(activity);

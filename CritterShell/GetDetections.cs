@@ -1,5 +1,4 @@
-﻿using CritterShell.Critters;
-using System;
+﻿using System;
 using System.IO;
 using System.Management.Automation;
 

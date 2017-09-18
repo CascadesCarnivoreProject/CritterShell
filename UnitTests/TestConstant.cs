@@ -10,6 +10,7 @@
             public const string CarnivoreSign = "CarnivoreSign.gpx";
 
             public const string SiteDetectionsWorksheet = "site detections";
+            public const string StationData = "StationData.csv";
             public const string StationDetectionsWorksheet = "station detections";
         }
     }

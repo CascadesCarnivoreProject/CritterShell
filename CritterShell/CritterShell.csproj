@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityCmdlet.cs" />
-    <Compile Include="AddGroup.cs" />
+    <Compile Include="Critters\Station.cs" />
+    <Compile Include="Critters\StationData.cs" />
+    <Compile Include="Gpx\AddGroup.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CritterCmdlet.cs" />
     <Compile Include="CritterDetections.cs" />
@@ -61,7 +63,6 @@
     <Compile Include="ConvertGpx.cs" />
     <Compile Include="Critters\CritterDetection.cs" />
     <Compile Include="CritterImages.cs" />
-    <Compile Include="Critters\CritterObservation.cs" />
     <Compile Include="Critters\CritterSign.cs" />
     <Compile Include="Critters\CritterSigns.cs" />
     <Compile Include="Critters\CritterSignType.cs" />

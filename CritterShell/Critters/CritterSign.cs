@@ -30,8 +30,7 @@ namespace CritterShell.Critters
             this.Name = waypoint.Name;
             this.Time = waypoint.Time;
 
-            CritterSignType type;
-            waypoint.TryGetSignType(out type);
+            waypoint.TryGetSignType(out CritterSignType type);
             this.Type = type;
         }
     }
