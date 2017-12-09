@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,7 @@
       <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -46,11 +48,13 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.XML" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityCmdlet.cs" />
     <Compile Include="Critters\Station.cs" />
     <Compile Include="Critters\StationData.cs" />
+    <Compile Include="GetHistogram.cs" />
     <Compile Include="Gpx\AddGroup.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CritterCmdlet.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="Critters\StringExtensions.cs" />
     <Compile Include="Gpx\DataType.cs" />
     <Compile Include="Gpx\GpxSpreadsheet.cs" />
+    <Compile Include="ImageHistogram.cs" />
     <Compile Include="SpreadsheetReaderWriter.cs" />
     <Compile Include="CopyCameraFiles.cs" />
     <Compile Include="GetDetections.cs" />

@@ -2,6 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace CritterShell.UnitTests
 {
@@ -12,6 +15,8 @@ namespace CritterShell.UnitTests
         private static readonly List<int> PreviousYearDaysInMonth;
         private static readonly DateTime UtcToday;
 
+        public TestContext TestContext { get; set; }
+
         static LowLevel()
         {
             LowLevel.CurrentYearDaysInMonth = new List<int>(12);
@@ -21,6 +26,36 @@ namespace CritterShell.UnitTests
             {
                 LowLevel.CurrentYearDaysInMonth.Add(DateTime.DaysInMonth(LowLevel.UtcToday.Year, month));
                 LowLevel.PreviousYearDaysInMonth.Add(DateTime.DaysInMonth(LowLevel.UtcToday.Year - 1, month));
+            }
+        }
+
+        [TestMethod]
+        public void ImageHistogram()
+        {
+            List<string> imageNames = new List<string>() { TestConstant.File.ColorSquirrel, TestConstant.File.GreyscaleSquirrel };
+            for (int image = 0; image < imageNames.Count; ++image)
+            {
+                string imageName = imageNames[image];
+                GetHistogram histogramCmdlet = new GetHistogram()
+                {
+                    BottomRowsToSkip = 100 * (image % 2),
+                    Image = imageName
+                };
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                ImageHistogram histogram = histogramCmdlet.Invoke<ImageHistogram>().Single();
+                stopwatch.Stop();
+                this.TestContext.WriteLine("{0} histogram in {1} milliseconds.", imageName, stopwatch.ElapsedMilliseconds);
+
+                if ((image % 2) == 0)
+                {
+                    histogram.WriteCsv(Path.GetFileNameWithoutExtension(imageName) + Constant.Csv.Extension);
+                }
+                else
+                {
+                    histogram.WriteXlsx(Path.GetFileNameWithoutExtension(imageName) + Constant.Excel.Extension, histogram.Bins.ToString());
+                }
             }
         }
 

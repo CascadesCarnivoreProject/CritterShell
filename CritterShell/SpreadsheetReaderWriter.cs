@@ -24,6 +24,11 @@ namespace CritterShell
             return this.AddCsvValue(value.ToString());
         }
 
+        protected string AddCsvValue(int value)
+        {
+            return this.AddCsvValue(value.ToString());
+        }
+
         protected string AddCsvValue(TimeSpan utcOffset)
         {
             return this.AddCsvValue(utcOffset.TotalHours.ToString(Constant.Time.UtcOffsetFormat));

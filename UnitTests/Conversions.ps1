@@ -33,3 +33,12 @@ $monthlyActivity = Get-MonthlyActivity -DetectionFile $xlsx -DetectionWorksheet 
 $gpx = ".\CAMA5.gpx";
 $waypoints = Convert-Gpx -GpxFile $gpx -OutputFile ".\PowerShell CAMA5.csv";
 $waypoints = Convert-Gpx -GpxFile $gpx -OutputFile ".\PowerShell CAMA5.xlsx";
+
+# histograms
+$image = ".\TADO-20170718-766.jpg";
+# $image = ".\TADO-20170707-919.jpg";
+foreach ($bins in @(256, 128, 64, 32, 16, 8, 4, 2))
+{
+    $histogram = Get-Histogram -Image $image -Bins $bins -BottomRowsToSkip 100
+    $histogram.WriteXlsx([System.IO.Path]::GetFileNameWithoutExtension($image) + ".xlsx", $bins);
+}
