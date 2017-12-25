@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace CritterShell
+namespace CritterShell.Images
 {
     public class ImageHistogram : SpreadsheetReaderWriter
     {
@@ -17,11 +18,15 @@ namespace CritterShell
 
         public int[] B { get; private set; }
         public int[] Cb { get; private set; }
+        public int[] Coloration { get; private set; }
         public int[] Cr { get; private set; }
         public int Bins { get; private set; }
         public int BottomRowsToSkip { get; private set; }
         public int[] G { get; private set; }
+        public int[] H { get; private set; }
         public int[] R { get; private set; }
+        public int[] S { get; private set; }
+        public int[] V { get; private set; }
         public int[] Y { get; private set; }
 
         static ImageHistogram()
@@ -34,41 +39,55 @@ namespace CritterShell
                 new ColumnDefinition("B", true),
                 new ColumnDefinition("Y", true),
                 new ColumnDefinition("Cb", true),
-                new ColumnDefinition("Cr", true)
+                new ColumnDefinition("Cr", true),
+                new ColumnDefinition("H", true),
+                new ColumnDefinition("S", true),
+                new ColumnDefinition("V", true),
+                new ColumnDefinition("coloration", true)
             }.AsReadOnly();
         }
 
-        public ImageHistogram(WriteableBitmap writeableBitmap, int bins, int bottomRowsToSkip)
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow", Justification = "Readability.")]
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
+        public ImageHistogram(WriteableBitmap image, int bins, int bottomRowsToSkip)
         {
             if ((bins < 2) || (bins > 256) || ((bins & (bins - 1)) != 0))
             {
-                throw new ArgumentOutOfRangeException(nameof(bins), String.Format("Bins must be 2, 4, 8, 16, 32, 64, 128, or 256.", bins));
+                throw new ArgumentOutOfRangeException(nameof(bins), "Bins must be 2, 4, 8, 16, 32, 64, 128, or 256.");
             }
             if (bottomRowsToSkip < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(bottomRowsToSkip), "Number of rows to skip must be either zero or positive.");
             }
-            if (writeableBitmap.Format != PixelFormats.Bgr24)
+            if ((image.Format != PixelFormats.Bgr24) &&
+                (image.Format != PixelFormats.Bgr32) &&
+                (image.Format != PixelFormats.Bgra32) &&
+                (image.Format != PixelFormats.Pbgra32))
             {
-                throw new ArgumentOutOfRangeException(nameof(writeableBitmap), String.Format("Unhandled pixel format {0}.", writeableBitmap.Format));
+                throw new ArgumentOutOfRangeException(nameof(image), String.Format("Unhandled pixel format {0}.", image.Format));
             }
-            this.B = new int[bins];
+
             this.Bins = bins;
+            this.B = new int[bins];
             this.G = new int[bins];
             this.R = new int[bins];
             this.Y = new int[bins];
             this.Cb = new int[bins];
             this.Cr = new int[bins];
+            this.H = new int[bins];
+            this.S = new int[bins];
+            this.V = new int[bins];
+            this.Coloration = new int[bins];
 
-            int bytesPerPixel = writeableBitmap.Format.BitsPerPixel / 8;
-            int imageBytes = bytesPerPixel * writeableBitmap.PixelWidth * (writeableBitmap.PixelHeight - bottomRowsToSkip);
+            int bytesPerPixel = image.GetBytesPerPixel();
+            int imageBytes = image.GetSizeInBytes(bottomRowsToSkip);
+            Debug.Assert(image.BackBufferStride == bytesPerPixel * image.PixelWidth, "Unhandled back buffer stride.");
             int shiftToBinIndex = 8 - (int)Math.Log(bins, 2.0);
             Debug.Assert((0 <= shiftToBinIndex) && (shiftToBinIndex < 8), "Expected shift for 8 bit pixels to be between 0 and 7, inclusive.");
 
-            writeableBitmap.Lock();
             unsafe
             {
-                byte* backBuffer = (byte*)writeableBitmap.BackBuffer.ToPointer();
+                byte* backBuffer = (byte*)image.BackBuffer.ToPointer();
                 for (int pixel = 0; pixel < imageBytes; pixel += bytesPerPixel)
                 {
                     int r = *(backBuffer + pixel + 2);
@@ -94,9 +113,43 @@ namespace CritterShell
                     ++this.Y[y >> shiftToBinIndex];
                     ++this.Cb[cb >> shiftToBinIndex];
                     ++this.Cr[cr >> shiftToBinIndex];
+
+                    int max = r > g ? r : g;
+                        max = max > b ? max : b;
+                    int min = r < g ? r : g;
+                        min = min < b ? min : b;
+                    int h = 0;
+                    int s = 0;
+                    int v = max;
+                    if (v != 0)
+                    {
+                        int delta = max - min;
+                        s = (int)(255.0f * (v > 127 ? (float)delta / (float)(512 - max - min) : (float)delta / (float)(max + min)));
+                        if (s != 0)
+                        {
+                            if (max == r)
+                            {
+                                h = (byte)(43 * (g - b) / delta);
+                            }
+                            else if (max == g)
+                            {
+                                h = (byte)(85 + 43 * (b - r) / delta);
+                            }
+                            else
+                            {
+                                h = (byte)(171 + 43 * (r - g) / delta);
+                            }
+                        }
+                    }
+
+                    ++this.H[h >> shiftToBinIndex];
+                    ++this.S[s >> shiftToBinIndex];
+                    ++this.V[v >> shiftToBinIndex];
+
+                    int coloration = (Math.Abs(r - g) + Math.Abs(r - g) + Math.Abs(b - r)) / 3;
+                    ++this.Coloration[coloration >> shiftToBinIndex];
                 }
             }
-            writeableBitmap.Unlock();
         }
 
         protected override FileReadResult TryRead(Func<List<string>> readLine)
@@ -124,6 +177,10 @@ namespace CritterShell
                     int y = this.Y[binIndex] / pixelValuesPerBin;
                     int cb = this.Cb[binIndex] / pixelValuesPerBin;
                     int cr = this.Cr[binIndex] / pixelValuesPerBin;
+                    int h = this.H[binIndex] / pixelValuesPerBin;
+                    int s = this.S[binIndex] / pixelValuesPerBin;
+                    int v = this.V[binIndex] / pixelValuesPerBin;
+                    int coloration = this.Coloration[binIndex] / pixelValuesPerBin;
 
                     int startPixelValue = binIndex * pixelValuesPerBin;
                     int endPixelValue = startPixelValue + pixelValuesPerBin;
@@ -137,6 +194,10 @@ namespace CritterShell
                         row.Append(this.AddCsvValue(y));
                         row.Append(this.AddCsvValue(cb));
                         row.Append(this.AddCsvValue(cr));
+                        row.Append(this.AddCsvValue(h));
+                        row.Append(this.AddCsvValue(s));
+                        row.Append(this.AddCsvValue(v));
+                        row.Append(this.AddCsvValue(coloration));
                         fileWriter.WriteLine(row.ToString());
                     }
                 }
@@ -158,6 +219,10 @@ namespace CritterShell
                     int y = this.Y[binIndex] / pixelValuesPerBin;
                     int cb = this.Cb[binIndex] / pixelValuesPerBin;
                     int cr = this.Cr[binIndex] / pixelValuesPerBin;
+                    int h = this.H[binIndex] / pixelValuesPerBin;
+                    int s = this.S[binIndex] / pixelValuesPerBin;
+                    int v = this.V[binIndex] / pixelValuesPerBin;
+                    int coloration = this.Coloration[binIndex] / pixelValuesPerBin;
 
                     int startPixelValue = binIndex * pixelValuesPerBin;
                     int endPixelValue = startPixelValue + pixelValuesPerBin;
@@ -171,6 +236,10 @@ namespace CritterShell
                         worksheet.Cells[row, 5].Value = y;
                         worksheet.Cells[row, 6].Value = cb;
                         worksheet.Cells[row, 7].Value = cr;
+                        worksheet.Cells[row, 8].Value = h;
+                        worksheet.Cells[row, 9].Value = s;
+                        worksheet.Cells[row, 10].Value = v;
+                        worksheet.Cells[row, 11].Value = coloration;
                     }
                 }
 

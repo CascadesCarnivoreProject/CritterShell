@@ -1,10 +1,13 @@
 ﻿using CritterShell.Critters;
+using CritterShell.Images;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace CritterShell.UnitTests
 {
@@ -30,25 +33,27 @@ namespace CritterShell.UnitTests
         }
 
         [TestMethod]
-        public void ImageHistogram()
+        public void ImageProcessing()
         {
             List<string> imageNames = new List<string>() { TestConstant.File.ColorSquirrel, TestConstant.File.GreyscaleSquirrel };
-            for (int image = 0; image < imageNames.Count; ++image)
+            for (int index = 0; index < imageNames.Count; ++index)
             {
-                string imageName = imageNames[image];
-                GetHistogram histogramCmdlet = new GetHistogram()
+                string imageName = imageNames[index];
+                WriteableBitmap image;
+                using (FileStream imageStream = new FileStream(imageName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    BottomRowsToSkip = 100 * (image % 2),
-                    Image = imageName
-                };
+                    JpegBitmapDecoder jpegDecoder = new JpegBitmapDecoder(imageStream, BitmapCreateOptions.None, BitmapCacheOption.None);
+                    image = new WriteableBitmap(jpegDecoder.Frames[0]);
+                }
 
+                // histogram
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                ImageHistogram histogram = histogramCmdlet.Invoke<ImageHistogram>().Single();
+                ImageHistogram histogram = new ImageHistogram(image, 256, 100 * (index % 2));
                 stopwatch.Stop();
                 this.TestContext.WriteLine("{0} histogram in {1} milliseconds.", imageName, stopwatch.ElapsedMilliseconds);
 
-                if ((image % 2) == 0)
+                if ((index % 2) == 0)
                 {
                     histogram.WriteCsv(Path.GetFileNameWithoutExtension(imageName) + Constant.Csv.Extension);
                 }
@@ -56,6 +61,33 @@ namespace CritterShell.UnitTests
                 {
                     histogram.WriteXlsx(Path.GetFileNameWithoutExtension(imageName) + Constant.Excel.Extension, histogram.Bins.ToString());
                 }
+
+                // rectangle location
+                Int32Rect triggerArea = Bushnell.FindTrigger(image);
+                Assert.IsTrue(triggerArea == new Int32Rect(234, 2365, 61, 62));
+
+                Int32Rect temperatureArea = Bushnell.FindTemperature(image);
+                Assert.IsTrue(temperatureArea == new Int32Rect(1454, 2373, 82, 41));
+
+                // rectangle extraction
+                WriteableBitmap rectangle = image.ExtractRectangle(temperatureArea);
+                rectangle.Threshold(Constant.Bushnell.BlackPixelThreshold);
+
+                ImageProperties properties = rectangle.GetProperties();
+                Assert.IsTrue(properties.BlackPixels >= 0);
+                Assert.IsTrue((properties.BlackPixels + properties.WhitePixels) == properties.Pixels);
+                Assert.IsTrue(properties.Hash > 0);
+                Assert.IsTrue(properties.PixelWidth == temperatureArea.Width);
+                Assert.IsTrue(properties.PixelHeight == temperatureArea.Height);
+                Assert.IsTrue(properties.WhitePixels >= 0);
+
+                WriteableBitmap converted = rectangle.Convert(PixelFormats.Gray8);
+                ImageProperties convertedProperties = converted.GetProperties();
+                Assert.IsTrue((convertedProperties.BlackPixels + convertedProperties.WhitePixels) == convertedProperties.Pixels);
+                Assert.IsTrue(properties.PixelWidth == convertedProperties.PixelWidth);
+                Assert.IsTrue(properties.PixelHeight == convertedProperties.PixelHeight);
+
+                converted.Save(Path.GetFileNameWithoutExtension(imageName) + Constant.File.PngExtension);
             }
         }
 

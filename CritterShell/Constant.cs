@@ -14,6 +14,20 @@ namespace CritterShell
             public const string Survey = "Survey";
         }
 
+        public static class Bushnell
+        {
+            public const int BlackPixelThreshold = 30;
+            public const int CelsiusToLunarEdgePixelDistance = 209;
+            public const int InfoBarCenterlinePixelOffset = 52;
+            public const int TemperaturePixelHeight = 41;
+            public const int TemperaturePixelWidth = 82;
+            public const int TemperaturePixelYOffset = 75;
+            public const int TriggerPixelHeight = 62;
+            public const int TriggerPixelWidth = 61;
+            public const int TriggerPixelX = 234;
+            public const int TriggerPixelYOffset = 83;
+        }
+
         public static class CritterSignColumn
         {
             public const string Identification = "Identification";
@@ -58,7 +72,9 @@ namespace CritterShell
         public static class File
         {
             public const string JpgExtension = ".jpg";
+            public const string JpegExtension = ".jpeg";
             public const int MaximumImportWarnings = 1;
+            public const string PngExtension = ".png";
         }
 
         public static class GarminExtension
