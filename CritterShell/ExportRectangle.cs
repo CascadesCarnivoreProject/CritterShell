@@ -76,13 +76,13 @@ namespace CritterShell
                 output = area.Convert(this.OutFormat);
                 output.Freeze();
             }
+
+            ImageProperties properties = output.GetProperties();
             if (String.IsNullOrWhiteSpace(this.Out) == false)
             {
                 output.Save(this.Out);
+                properties.Path = this.Out;
             }
-
-            ImageProperties properties = output.GetProperties();
-            properties.Path = this.Image;
 
             this.WriteObject(output);
             this.WriteObject(properties);

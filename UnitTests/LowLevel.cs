@@ -32,6 +32,15 @@ namespace CritterShell.UnitTests
             }
         }
 
+        private WriteableBitmap DecodePng(string filePath)
+        {
+            using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                PngBitmapDecoder pngDecoder = new PngBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
+                return new WriteableBitmap(pngDecoder.Frames[0]);
+            }
+        }
+
         [TestMethod]
         public void ImageProcessing()
         {
@@ -70,24 +79,50 @@ namespace CritterShell.UnitTests
                 Assert.IsTrue(temperatureArea == new Int32Rect(1454, 2373, 82, 41));
 
                 // rectangle extraction
-                WriteableBitmap rectangle = image.ExtractRectangle(temperatureArea);
-                rectangle.Threshold(Constant.Bushnell.BlackPixelThreshold);
+                WriteableBitmap bgrTemperature = image.ExtractRectangle(temperatureArea);
+                bgrTemperature.Threshold(Constant.Bushnell.BlackPixelThreshold);
 
-                ImageProperties properties = rectangle.GetProperties();
-                Assert.IsTrue(properties.BlackPixels >= 0);
-                Assert.IsTrue((properties.BlackPixels + properties.WhitePixels) == properties.Pixels);
-                Assert.IsTrue(properties.Hash > 0);
-                Assert.IsTrue(properties.PixelWidth == temperatureArea.Width);
-                Assert.IsTrue(properties.PixelHeight == temperatureArea.Height);
-                Assert.IsTrue(properties.WhitePixels >= 0);
+                ImageProperties bgrProperties = bgrTemperature.GetProperties();
+                Assert.IsTrue(bgrProperties.BlackPixels >= 0);
+                Assert.IsTrue((bgrProperties.BlackPixels + bgrProperties.WhitePixels) == bgrProperties.Pixels);
+                Assert.IsTrue((bgrProperties.Hash32 >= 536824936) && (bgrProperties.Hash32 <= 1345344524));
+                Assert.IsTrue((bgrProperties.Hash64 >= 2997135066568449045) && (bgrProperties.Hash64 <= 8273301225411056038));
+                Assert.IsTrue(bgrProperties.PixelWidth == temperatureArea.Width);
+                Assert.IsTrue(bgrProperties.PixelHeight == temperatureArea.Height);
+                Assert.IsTrue(bgrProperties.WhitePixels >= 0);
 
-                WriteableBitmap converted = rectangle.Convert(PixelFormats.Gray8);
-                ImageProperties convertedProperties = converted.GetProperties();
-                Assert.IsTrue((convertedProperties.BlackPixels + convertedProperties.WhitePixels) == convertedProperties.Pixels);
-                Assert.IsTrue(properties.PixelWidth == convertedProperties.PixelWidth);
-                Assert.IsTrue(properties.PixelHeight == convertedProperties.PixelHeight);
+                WriteableBitmap grey = bgrTemperature.Convert(PixelFormats.Gray8);
+                ImageProperties greyProperties = grey.GetProperties();
+                Assert.IsTrue(bgrProperties.BlackPixels == greyProperties.BlackPixels);
+                Assert.IsFalse(bgrProperties.Hash32 == greyProperties.Hash32);
+                Assert.IsFalse(bgrProperties.Hash64 == greyProperties.Hash64);
+                Assert.IsTrue(bgrProperties.PixelWidth == greyProperties.PixelWidth);
+                Assert.IsTrue(bgrProperties.PixelHeight == greyProperties.PixelHeight);
+                Assert.IsTrue(bgrProperties.WhitePixels == greyProperties.WhitePixels);
+                string greyFileName = Path.GetFileNameWithoutExtension(imageName) + "-grey" + Constant.File.PngExtension;
+                grey.Save(greyFileName);
 
-                converted.Save(Path.GetFileNameWithoutExtension(imageName) + Constant.File.PngExtension);
+                WriteableBitmap monochrome = bgrTemperature.Convert(PixelFormats.BlackWhite);
+                ImageProperties monochromeProperties = monochrome.GetProperties();
+                Assert.IsTrue(bgrProperties.BlackPixels == monochromeProperties.BlackPixels);
+                Assert.IsFalse(bgrProperties.Hash32 == monochromeProperties.Hash32);
+                Assert.IsFalse(greyProperties.Hash32 == monochromeProperties.Hash32);
+                Assert.IsFalse(bgrProperties.Hash64 == monochromeProperties.Hash64);
+                Assert.IsFalse(greyProperties.Hash64 == monochromeProperties.Hash64);
+                Assert.IsTrue(bgrProperties.PixelWidth == monochromeProperties.PixelWidth);
+                Assert.IsTrue(bgrProperties.PixelHeight == monochromeProperties.PixelHeight);
+                Assert.IsTrue(bgrProperties.WhitePixels == monochromeProperties.WhitePixels);
+                string monochromeFileName = Path.GetFileNameWithoutExtension(imageName) + "-monochrome" + Constant.File.PngExtension;
+                monochrome.Save(monochromeFileName);
+
+                // hash consistency over non-pixel bytes at end of row stride
+                WriteableBitmap greyLoopback = this.DecodePng(greyFileName);
+                ImageProperties greyLoopbackProperties = greyLoopback.GetProperties();
+                Assert.IsTrue(greyProperties == greyLoopbackProperties);
+
+                WriteableBitmap monochromeLoopback = this.DecodePng(monochromeFileName);
+                ImageProperties monochromeLoopbackProperties = monochromeLoopback.GetProperties();
+                Assert.IsTrue(monochromeProperties == monochromeLoopbackProperties);
             }
         }
 

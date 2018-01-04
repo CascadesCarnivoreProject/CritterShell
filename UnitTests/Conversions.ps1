@@ -46,7 +46,10 @@ foreach ($directory in $exif)
 }
 
 # extraction
-$rectangle = Export-Rectangle -Image $image -Rectangle ([System.Windows.Int32Rect]::new(1458, 2373, 144, 41)) -Out ([System.IO.Path]::GetFileNameWithoutExtension($image) + '.png') -OutFormat ([System.Windows.Media.PixelFormats]::Gray8) -BinaryThreshold 30;
+$rectangle = Export-Rectangle -Image $image -Rectangle ([System.Windows.Int32Rect]::new(1458, 2373, 144, 41)) -Out ([System.IO.Path]::GetFileNameWithoutExtension($image) + '-grey.png') -OutFormat ([System.Windows.Media.PixelFormats]::Gray8) -BinaryThreshold 30;
+Write-Host $rectangle[0].Format
+Write-Host $rectangle[1].Path
+$rectangle = Export-Rectangle -Image $image -Find BushnellTemperature -Out ([System.IO.Path]::GetFileNameWithoutExtension($image) + '-monochrome.png') -OutFormat ([System.Windows.Media.PixelFormats]::BlackWhite) -BinaryThreshold 30;
 Write-Host $rectangle[0].Format
 Write-Host $rectangle[1].Path
 

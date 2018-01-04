@@ -19,37 +19,85 @@ namespace CritterShell.Images
             {
                 throw new ArgumentOutOfRangeException(nameof(image), String.Format("Unhandled pixel format {0}.", image.Format));
             }
-            if (format != PixelFormats.Gray8)
+            if ((format != PixelFormats.BlackWhite) &&
+                (format != PixelFormats.Gray8))
             {
                 throw new ArgumentOutOfRangeException(nameof(format), String.Format("Unhandled pixel format {0}.", format));
             }
 
-            WriteableBitmap converted = new WriteableBitmap(image.PixelWidth, image.PixelHeight, image.DpiX, image.DpiY, format, null);
-            int sourceBytesPerPixel = image.GetBytesPerPixel();
-            converted.Lock();
+            // convert to grey
+            WriteableBitmap grey = new WriteableBitmap(image.PixelWidth, image.PixelHeight, image.DpiX, image.DpiY, PixelFormats.Gray8, null);
+            int bgrxBytesPerPixel = image.GetBytesPerPixel();
+            grey.Lock();
             unsafe
             {
-                byte* sourceBuffer = (byte*)image.BackBuffer.ToPointer();
-                byte* convertedBuffer = (byte*)converted.BackBuffer.ToPointer();
+                byte* bgrxBuffer = (byte*)image.BackBuffer.ToPointer();
+                byte* greyBuffer = (byte*)grey.BackBuffer.ToPointer();
                 for (int row = 0; row < image.PixelHeight; ++row)
                 {
                     for (int pixel = 0; pixel < image.PixelWidth; ++pixel)
                     {
-                        int sourcePixelOffset = sourceBytesPerPixel * pixel;
-                        int r = *(sourceBuffer + sourcePixelOffset + 2);
-                        int g = *(sourceBuffer + sourcePixelOffset + 1);
-                        int b = *(sourceBuffer + sourcePixelOffset);
+                        int sourcePixelOffset = bgrxBytesPerPixel * pixel;
+                        int r = *(bgrxBuffer + sourcePixelOffset + 2);
+                        int g = *(bgrxBuffer + sourcePixelOffset + 1);
+                        int b = *(bgrxBuffer + sourcePixelOffset);
 
                         byte luminosity = (byte)((77 * r + 150 * g + 29 * b + 128) >> 8);
-                        *(convertedBuffer + pixel) = luminosity;
+                        *(greyBuffer + pixel) = luminosity;
                     }
 
-                    sourceBuffer += image.BackBufferStride;
-                    convertedBuffer += converted.BackBufferStride;
+                    bgrxBuffer += image.BackBufferStride;
+                    greyBuffer += grey.BackBufferStride;
                 }
             }
-            converted.Unlock();
-            return converted;
+            grey.Unlock();
+
+            if (format == PixelFormats.Gray8)
+            {
+                return grey;
+            }
+            grey.Freeze();
+
+            // convert to monochrome
+            WriteableBitmap monochrome = new WriteableBitmap(grey.PixelWidth, grey.PixelHeight, grey.DpiX, grey.DpiY, PixelFormats.BlackWhite, null);
+            monochrome.Lock();
+            unsafe
+            {
+                byte* greyBuffer = (byte*)grey.BackBuffer.ToPointer();
+                byte* monochromeBuffer = (byte*)monochrome.BackBuffer.ToPointer();
+                for (int row = 0; row < grey.PixelHeight; ++row)
+                {
+                    // if needed, the below loops can be made faster by taking more than one byte at a time
+                    for (int offset = 0; offset < monochrome.BackBufferStride; ++offset)
+                    {
+                        // zero row for ORing in of pixels below
+                        // Zeroing any unused bytes at the end of the stride is not strictly necessary but is done for simplicity.
+                        *(monochromeBuffer + offset) = 0;
+                    }
+
+                    for (int pixel = 0; pixel < grey.PixelWidth; ++pixel)
+                    {
+                        int pixelValue = *(greyBuffer + pixel);
+                        if ((pixelValue != 0) && (pixelValue != 255))
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(image), "Image contains pixels with luminosities other than pure black (0x00) or pure white (0xff).");
+                        }
+
+                        // convert 0xff to 0x01
+                        pixelValue = (pixelValue & 0x80) >> 7;
+                        // move bit for pixel into position and or into output byte
+                        // PngBitmapEncoder interprets bits little endian, so the first pixel in the byte is indicated by the most
+                        // significant bit.
+                        *(monochromeBuffer + pixel / 8) |= (byte)(pixelValue << (7 - (pixel % 8)));
+                    }
+
+                    greyBuffer += grey.BackBufferStride;
+                    monochromeBuffer += monochrome.BackBufferStride;
+                }
+            }
+            monochrome.Unlock();
+
+            return monochrome;
         }
 
         public static WriteableBitmap ExtractRectangle(this WriteableBitmap image, Int32Rect rectangle)
