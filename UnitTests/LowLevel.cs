@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -32,12 +35,57 @@ namespace CritterShell.UnitTests
             }
         }
 
+        [TestMethod]
+        public async Task CopyFiles()
+        {
+            string subdirectoryName = nameof(this.CopyFiles);
+            this.EmptyDirectory(subdirectoryName);
+
+            FileInfo[] files = new FileInfo[]
+            {
+                new FileInfo(TestConstant.File.CalochortusMacrocarpus),
+                new FileInfo(TestConstant.File.CarnivoreSign),
+                new FileInfo(TestConstant.File.ColorSquirrel)
+            };
+
+            FileCopy fileCopy = new FileCopy();
+            using (CancellationTokenSource cancellationTokenSource = new CancellationTokenSource())
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                FileCopyResult result = fileCopy.Sequential(files, subdirectoryName, cancellationTokenSource.Token);
+                stopwatch.Stop();
+                this.VerifyFileCopy(files, result, stopwatch, subdirectoryName);
+                this.EmptyDirectory(subdirectoryName);
+
+                stopwatch.Restart();
+                result = await fileCopy.StreamAsync(files, subdirectoryName, cancellationTokenSource.Token);
+                stopwatch.Stop();
+                this.VerifyFileCopy(files, result, stopwatch, subdirectoryName);
+            }
+        }
+
         private WriteableBitmap DecodePng(string filePath)
         {
             using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 PngBitmapDecoder pngDecoder = new PngBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
                 return new WriteableBitmap(pngDecoder.Frames[0]);
+            }
+        }
+
+        private void EmptyDirectory(string subdirectoryName)
+        {
+            if (Directory.Exists(subdirectoryName) == false)
+            {
+                Directory.CreateDirectory(subdirectoryName);
+            }
+            else
+            {
+                foreach (string relativeFilePath in Directory.EnumerateFiles(subdirectoryName))
+                {
+                    File.Delete(relativeFilePath);
+                }
             }
         }
 
@@ -147,6 +195,26 @@ namespace CritterShell.UnitTests
 
             station = new Station("test", "year overlap", new DateTime(LowLevel.UtcToday.Year - 1, 11, 06), new DateTime(LowLevel.UtcToday.Year, 5, 21));
             this.VerifyUptime(station, new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 31 }, new List<int>() { 31, daysInFebruary, 31, 30, 21, 0, 0, 0, 0, 0, 0, 0 });
+        }
+
+        private void VerifyFileCopy(IList<FileInfo> files, FileCopyResult result, Stopwatch stopwatch, string outputDirectoryName)
+        {
+            Assert.IsTrue(result.BytesCopied == files.Sum(file => file.Length));
+            Assert.IsTrue(result.FilesProcessed == files.Count);
+            Assert.IsTrue(result.ImagesCopied == files.Count(file => file.IsImage()));
+            Assert.IsTrue(result.VideosCopied == 0);
+
+            double megabytesPerSecond = result.GetMegabytesPerSecond(stopwatch);
+            this.TestContext.WriteLine("{0} files copied in {1}ms at {2:0.00}MB/s.", result.FilesProcessed, stopwatch.ElapsedMilliseconds, megabytesPerSecond);
+            Assert.IsTrue(megabytesPerSecond > 1.0);
+            Assert.IsTrue(megabytesPerSecond < 1000.0);
+
+            foreach (FileInfo file in files)
+            {
+                FileInfo copiedFile = new FileInfo(Path.Combine(outputDirectoryName, file.Name));
+                Assert.IsTrue(copiedFile.Exists);
+                Assert.IsTrue(file.Length == copiedFile.Length);
+            }
         }
 
         private void VerifyUptime(Station station, List<int> expectedUptime)

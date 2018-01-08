@@ -71,6 +71,7 @@ namespace CritterShell
 
         public static class File
         {
+            public const string AviExtension = ".avi";
             public const string JpgExtension = ".jpg";
             public const string JpegExtension = ".jpeg";
             public const int MaximumImportWarnings = 1;

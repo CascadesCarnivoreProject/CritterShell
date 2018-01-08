@@ -41,7 +41,14 @@ foreach ($directory in $exif)
 {
 	foreach ($tag in $directory.Tags)
 	{
-		Write-Host $tag.ToString();
+        if (($tag.Description -ne $null) -and ($tag.Description.Length -ge 150))
+        {
+            Write-Host "[$($tag.DirectoryName)] $($tag.Name) - $($tag.Description.Substring(0, 150))..."
+        }
+        else
+        {
+    		Write-Host $tag;
+        }
 	}
 }
 

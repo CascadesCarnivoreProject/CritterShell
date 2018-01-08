@@ -129,6 +129,7 @@
     <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
+          <Value>at</Value>
           <Value>by</Value>
           <Value>io</Value>
         </CollectionProperty>

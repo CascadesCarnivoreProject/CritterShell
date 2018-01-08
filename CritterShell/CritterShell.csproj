@@ -92,6 +92,9 @@
     <Compile Include="Gpx\GpxSpreadsheet.cs" />
     <Compile Include="ImageCmdlet.cs" />
     <Compile Include="Images\Bushnell.cs" />
+    <Compile Include="Images\FileCopy.cs" />
+    <Compile Include="Images\FileCopyResult.cs" />
+    <Compile Include="Images\FileInfoExtensions.cs" />
     <Compile Include="Images\ImageHistogram.cs" />
     <Compile Include="Images\ImageProperties.cs" />
     <Compile Include="Images\WriteableBitmapExtensions.cs" />

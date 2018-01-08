@@ -23,6 +23,13 @@ namespace CritterShell
 
         protected WriteableBitmap ReadImage(double scale)
         {
+            string extension = Path.GetExtension(this.Image);
+            if ((String.Equals(extension, Constant.File.JpegExtension, StringComparison.OrdinalIgnoreCase) == false) &&
+                (String.Equals(extension, Constant.File.JpgExtension, StringComparison.OrdinalIgnoreCase) == false))
+            {
+                throw new NotSupportedException(String.Format("Unhandled file type '{0}'.", extension));
+            }
+
             using (FileStream imageStream = new FileStream(this.Image, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 JpegBitmapDecoder jpegDecoder = new JpegBitmapDecoder(imageStream, BitmapCreateOptions.None, BitmapCacheOption.None);
