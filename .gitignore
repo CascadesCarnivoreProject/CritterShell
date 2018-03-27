@@ -6,10 +6,11 @@
 bin/
 packages/
 obj/
+TestResults/
 
 # Profiling results
 *.vsp
 *.vspx
 
-# Visual Studio 2015 cache/options directory 
+# Visual Studio cache/options directory 
 .vs/ 

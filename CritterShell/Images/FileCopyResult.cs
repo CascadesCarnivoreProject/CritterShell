@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 
 namespace CritterShell.Images
@@ -51,12 +50,42 @@ namespace CritterShell.Images
 
         public override string ToString()
         {
-            return String.Format("{0} images and {1} videos copied, {2} files processed total", this.ImagesCopied, this.VideosCopied, this.FilesProcessed);
+            string imageResult = this.ImagesCopied + " images and ";
+            if (this.ImagesCopied == 1)
+            {
+                imageResult = "1 image and ";
+            }
+
+            string videoResult = this.VideosCopied + " videos copied, ";
+            if (this.VideosCopied == 1)
+            {
+                videoResult = "1 video copied, ";
+            }
+
+            string filesResult = this.FilesProcessed + " files processed total, ";
+            if (this.FilesProcessed == 1)
+            {
+                filesResult = " 1 file processed total, ";
+            }
+
+            string bytesCopied;
+            double gigabytesCopied = this.BytesCopied / (1024.0 * 1024.0 * 1024.0);
+            if (gigabytesCopied >= 0.005)
+            {
+                bytesCopied = gigabytesCopied.ToString("0.00") + " GB copied";
+            }
+            else
+            {
+                double megabytesCopied = this.BytesCopied / (1024.0 * 1024.0);
+                bytesCopied = megabytesCopied.ToString("0.00") + " MB copied";
+            }
+
+            return imageResult + videoResult + filesResult + bytesCopied;
         }
 
         public string ToString(Stopwatch stopwatch)
         {
-            return String.Format("{0} images and {1} videos copied, {2} files processed total ({3:0.00} MB/s).", this.ImagesCopied, this.VideosCopied, this.FilesProcessed, this.GetMegabytesPerSecond(stopwatch));
+            return this.ToString() + " ("  + this.GetMegabytesPerSecond(stopwatch).ToString("0.00") + " MB/s)";
         }
     }
 }

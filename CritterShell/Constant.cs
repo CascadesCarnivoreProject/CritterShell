@@ -4,7 +4,8 @@ namespace CritterShell
 {
     internal static class Constant
     {
-        public static readonly TimeSpan DefaultDetectionMergeWindow = TimeSpan.FromMinutes(5);
+        public static readonly TimeSpan ChunkRetryInterval = TimeSpan.FromMilliseconds(50.0);
+        public static readonly TimeSpan DefaultDetectionMergeWindow = TimeSpan.FromMinutes(5.0);
 
         public static class ActivityColumn
         {
