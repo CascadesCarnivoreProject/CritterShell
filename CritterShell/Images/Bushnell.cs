@@ -8,7 +8,6 @@ namespace CritterShell.Images
 {
     internal class Bushnell
     {
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
         public static Int32Rect FindTemperature(WriteableBitmap image)
         {
             if ((image.Format != PixelFormats.Bgr24) &&

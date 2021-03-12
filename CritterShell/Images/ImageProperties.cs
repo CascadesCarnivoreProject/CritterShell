@@ -16,7 +16,6 @@ namespace CritterShell.Images
         public int PixelWidth { get; private set; }
         public int WhitePixels { get; private set; }
 
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
         public ImageProperties(WriteableBitmap image)
         {
             this.BlackPixels = 0;
@@ -79,7 +78,7 @@ namespace CritterShell.Images
                         {
                             // if needed, this can be made faster by taking more than one byte at a time
                             int pixelValue = *(backBuffer + offset);
-                            pixelValue = pixelValue - ((pixelValue >> 1) & 0x55555555);
+                            pixelValue -= ((pixelValue >> 1) & 0x55555555);
                             pixelValue = (pixelValue & 0x33333333) + ((pixelValue >> 2) & 0x33333333);
                             int whitePixels = ((pixelValue + (pixelValue >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
 

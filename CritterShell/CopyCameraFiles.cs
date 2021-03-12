@@ -12,7 +12,7 @@ namespace CritterShell
     [Cmdlet(VerbsCommon.Copy, "CameraFiles")]
     public class CopyCameraFiles : CritterCmdlet
     {
-        private FileCopy fileCopy;
+        private readonly FileCopy fileCopy;
 
         [Parameter(HelpMessage = "List of analysis folders to create in the parent of the folder indicated by -To.  Defaults to @(\"Critters\").")]
         public List<string> DefaultFolders { get; set; }

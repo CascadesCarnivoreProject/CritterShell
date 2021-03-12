@@ -13,8 +13,8 @@ namespace CritterShell
     {
         private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
-        private Dictionary<string, List<TActivity>> groupsByStationName;
-        private Dictionary<string, Station> stationsByID;
+        private readonly Dictionary<string, List<TActivity>> groupsByStationName;
+        private readonly Dictionary<string, Station> stationsByID;
 
         public Dictionary<string, TActivity> ActivityByStationName { get; private set; }
         public Dictionary<string, TActivity> ActivityGroupByName { get; private set; }

@@ -100,7 +100,7 @@ namespace CritterShell
         {
             if (String.IsNullOrWhiteSpace(value))
             {
-                return default(TEnum);
+                return default;
             }
             return (TEnum)Enum.Parse(typeof(TEnum), value, true);
         }

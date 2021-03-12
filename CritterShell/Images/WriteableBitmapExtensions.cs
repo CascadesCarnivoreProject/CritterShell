@@ -9,7 +9,6 @@ namespace CritterShell.Images
 {
     internal static class WriteableBitmapExtensions
     {
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
         public static WriteableBitmap Convert(this WriteableBitmap image, PixelFormat format)
         {
             if ((image.Format != PixelFormats.Bgr24) &&
@@ -162,7 +161,6 @@ namespace CritterShell.Images
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
         public static void Threshold(this WriteableBitmap image, int threshold)
         {
             if ((image.Format != PixelFormats.Bgr24) &&

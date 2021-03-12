@@ -12,7 +12,7 @@ namespace CritterShell.Gpx
     {
         private static readonly ReadOnlyCollection<ColumnDefinition> Columns;
 
-        private GpxFile file;
+        private readonly GpxFile file;
 
         static GpxSpreadsheet()
         {

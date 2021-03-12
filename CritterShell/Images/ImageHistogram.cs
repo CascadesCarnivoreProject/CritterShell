@@ -47,8 +47,6 @@ namespace CritterShell.Images
             }.AsReadOnly();
         }
 
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow", Justification = "Readability.")]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:ArithmeticExpressionsMustDeclarePrecedence", Justification = "Readability.")]
         public ImageHistogram(WriteableBitmap image, int bins, int bottomRowsToSkip)
         {
             if ((bins < 2) || (bins > 256) || ((bins & (bins - 1)) != 0))
